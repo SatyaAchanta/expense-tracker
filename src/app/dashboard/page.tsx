@@ -1,0 +1,55 @@
+import { UserButton } from "@clerk/nextjs";
+
+const Dashboard = () => {
+  return (
+    <div>
+      <header class="flex w-full items-center justify-end bg-sky-900 px-10 py-10">
+        <UserButton />
+      </header>
+      <div class="grid grid-cols-6 items-stretch gap-6 py-10 text-black bg-white h-full w-full">
+        <div class="col-span-3 m-4">
+          <form class="items-end">
+            <input
+              type="text"
+              class="mb-4 w-full rounded border-2 px-4 py-2"
+              placeholder="expense"
+              name="expense"
+            />
+            <input
+              type="text"
+              class="mb-4 w-full rounded border-2 px-4 py-2"
+              placeholder="place of purchase"
+            />
+            <input
+              type="text"
+              class="mb-4 w-full rounded border-2 px-4 py-2"
+              placeholder="details"
+            />
+            <input
+              type="number"
+              class="mb-4 w-full rounded border-2 px-4 py-2"
+              placeholder="price"
+            />
+            <input
+              type="date"
+              class="mb-4 w-full rounded border-2 px-4 py-2"
+              placeholder="date"
+            />
+            <button
+              type="submit"
+              class="rounded-full bg-sky-900 px-6 py-2"
+              style={{ color: "white" }}
+            >
+              Save
+            </button>
+          </form>
+        </div>
+        <div class="col-span-3">
+          <h1>Table goes here. WIP</h1>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
