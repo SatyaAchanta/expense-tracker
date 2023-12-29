@@ -3,7 +3,7 @@ import { UserButton } from "@clerk/nextjs";
 const Dashboard = () => {
   return (
     <div>
-      <header class="flex w-full items-center justify-end bg-sky-900 px-10 py-10">
+      <header class="flex w-full items-center justify-end bg-sky-900 px-10 py-6">
         <UserButton />
       </header>
       <div class="grid grid-cols-6 items-stretch gap-6 py-10 text-black bg-white h-full w-full">
