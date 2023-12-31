@@ -20,4 +20,22 @@ model User {
 
   clerkId String @unique
   email String @unique
+  expenses Expense[]
+}
+
+model Expense {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  
+  name String @db.Text
+  price Int
+  description String @db.Text
+  place String
+  purchaseDate DateTime
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, id])
 }
