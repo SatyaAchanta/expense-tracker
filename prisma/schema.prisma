@@ -29,7 +29,7 @@ model Expense {
   updatedAt DateTime @default(now())
   
   name String @db.Text
-  price Int
+  price Float @db.Double
   description String @db.Text
   place String
   purchaseDate DateTime
