@@ -1,13 +1,30 @@
 "use client";
 
+import { useRef } from "react";
 import { UserButton } from "@clerk/nextjs";
 import { addExpenseEntry } from "../utils/api";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/react";
 
 const Dashboard = () => {
+  const expenseName = useRef();
+  const price = useRef();
+  const place = useRef();
+  const description = useRef();
+  const expenseDate = useRef<Date>(new Date());
+
   const submitEntry = (event: any) => {
     event?.preventDefault();
-    console.log("----- before adding expense entry");
-    addExpenseEntry();
+
+    const data = {
+      name: expenseName.current.value,
+      price: price.current.value,
+      place: place.current.value as number,
+      description: description.current.value,
+      purchaseDate: expenseDate.current.value,
+    };
+
+    addExpenseEntry(data);
   };
 
   return (
@@ -17,40 +34,42 @@ const Dashboard = () => {
       </header>
       <div className="grid grid-cols-6 items-stretch gap-6 py-10 text-black bg-white h-full w-full">
         <div className="col-span-3 m-4">
-          <form className="items-end" onSubmit={submitEntry}>
-            <input
+          <form className="items-end ml-4" onSubmit={submitEntry}>
+            <Input
               type="text"
-              className="mb-4 w-full rounded border-2 px-4 py-2"
-              placeholder="expense"
+              className="mb-4 w-full"
+              ref={expenseName}
+              label="expense"
               name="expense"
             />
-            <input
+            <Input
               type="text"
-              className="mb-4 w-full rounded border-2 px-4 py-2"
-              placeholder="place of purchase"
+              className="mb-4 w-full"
+              ref={place}
+              label="place of purchase"
             />
-            <input
+            <Input
               type="text"
-              className="mb-4 w-full rounded border-2 px-4 py-2"
-              placeholder="details"
+              className="mb-4 w-full"
+              ref={description}
+              label="details"
             />
-            <input
+            <Input
               type="number"
-              className="mb-4 w-full rounded border-2 px-4 py-2"
-              placeholder="price"
+              className="mb-4 w-full"
+              ref={price}
+              label="Price"
             />
-            <input
+            <Input
               type="date"
-              className="mb-4 w-full rounded border-2 px-4 py-2"
-              placeholder="date"
+              className="mb-4 w-full"
+              ref={expenseDate}
+              label="Purchase Date"
             />
-            <button
-              type="submit"
-              className="rounded-full bg-sky-900 px-6 py-2"
-              style={{ color: "white" }}
-            >
-              Save
-            </button>
+
+            <Button type="Submit" color="primary">
+              Save Me
+            </Button>
           </form>
         </div>
         <div className="col-span-3">

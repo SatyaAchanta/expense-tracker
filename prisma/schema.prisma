@@ -29,10 +29,10 @@ model Expense {
   updatedAt DateTime @default(now())
   
   name String @db.Text
-  price Float @db.Double
+  price Decimal @db.Decimal(9,2)
   description String @db.Text
   place String
-  purchaseDate DateTime
+  purchaseDate DateTime @db.Date
 
   userId String
   user User @relation(fields: [userId], references: [id])
