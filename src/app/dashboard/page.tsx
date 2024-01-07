@@ -1,79 +1,103 @@
 "use client";
 
-import { useRef } from "react";
 import { UserButton } from "@clerk/nextjs";
 import { addExpenseEntry } from "../utils/api";
 import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/react";
+import { Input, Textarea, Card, CardBody } from "@nextui-org/react";
+import { useStore, useAtom } from "jotai";
+import { expenseAtom, isNewExpenseSaved } from "../store/expense";
+import { Expenses } from "../components/Expenses";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { iExpenseEntry, iExpenseResponse } from "@/types";
 
 const Dashboard = () => {
-  const expenseName = useRef();
-  const price = useRef();
-  const place = useRef();
-  const description = useRef();
-  const expenseDate = useRef<Date>(new Date());
+  const expenseStore = useStore();
+  const [expenseStatus, setExpenseStatus] = useAtom(expenseAtom);
 
-  const submitEntry = (event: any) => {
-    event?.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<iExpenseEntry>();
 
-    const data = {
-      name: expenseName.current.value,
-      price: price.current.value,
-      place: place.current.value as number,
-      description: description.current.value,
-      purchaseDate: expenseDate.current.value,
-    };
+  const onSubmit: SubmitHandler<iExpenseEntry> = async (data) => {
+    console.log(`data`, data);
+    const submitResponse: iExpenseResponse = await addExpenseEntry(data);
 
-    addExpenseEntry(data);
+    if (submitResponse.status === 200) {
+      expenseStore.set(isNewExpenseSaved, true);
+      expenseStore.set(expenseAtom, "Changes Saved");
+    }
   };
+
+  expenseStore.sub(expenseAtom, () => {
+    if (expenseStore.get(expenseAtom) !== expenseStatus) {
+      setExpenseStatus("Data saved successfully");
+    }
+  });
 
   return (
     <>
-      <header className="flex w-full items-center justify-end bg-sky-900 px-10 py-6">
+      <header className="flex w-full items-center justify-end bg-sky-900 px-10 py-6 border-b">
         <UserButton />
       </header>
       <div className="grid grid-cols-6 items-stretch gap-6 py-10 text-black bg-white h-full w-full">
         <div className="col-span-3 m-4">
-          <form className="items-end ml-4" onSubmit={submitEntry}>
+          <form onSubmit={handleSubmit(onSubmit)} className="ml-8">
+            {expenseStore.get(isNewExpenseSaved) && (
+              <Card
+                className="w-80 mb-4"
+                style={{ backgroundColor: "#0071bc", color: "white" }}
+              >
+                <CardBody>
+                  <p>{expenseStore.get(expenseAtom)}</p>
+                </CardBody>
+              </Card>
+            )}
             <Input
+              className="w-80 mb-4"
               type="text"
-              className="mb-4 w-full"
-              ref={expenseName}
-              label="expense"
-              name="expense"
+              placeholder="Expense Name"
+              {...register("name", { required: true })}
             />
             <Input
-              type="text"
-              className="mb-4 w-full"
-              ref={place}
-              label="place of purchase"
-            />
-            <Input
-              type="text"
-              className="mb-4 w-full"
-              ref={description}
-              label="details"
-            />
-            <Input
+              className="w-80 mb-4"
               type="number"
-              className="mb-4 w-full"
-              ref={price}
-              label="Price"
-            />
-            <Input
-              type="date"
-              className="mb-4 w-full"
-              ref={expenseDate}
-              label="Purchase Date"
+              placeholder="Price"
+              {...register("price", { required: true })}
             />
 
-            <Button type="Submit" color="primary">
-              Save Me
+            <Input
+              className="w-80 mb-4"
+              type="text"
+              placeholder="Place"
+              {...register("place", { required: true })}
+            />
+            <Textarea
+              className="w-80 mb-4"
+              type="text"
+              placeholder="brief description"
+              maxLength={100}
+              minRows={2}
+              maxRows={4}
+              variant="bordered"
+              {...register("description", { required: true })}
+            />
+            <Input
+              className="w-80 mb-4"
+              type="date"
+              placeholder="Expense Date"
+              {...register("purchaseDate", { required: true })}
+            />
+
+            <Button type="submit" color="primary">
+              Submit
             </Button>
           </form>
         </div>
         <div className="col-span-3">
-          <h1>Table goes here. WIP</h1>
+          <Expenses />
         </div>
       </div>
     </>
