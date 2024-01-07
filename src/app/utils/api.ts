@@ -16,12 +16,12 @@ export const addExpenseEntry = async (
   if (res.ok) {
     const data = await res.json();
     return {
-      responseStatus: 200,
+      status: 200,
       data: data.data,
     };
   } else {
     return {
-      responseStatus: 500,
+      status: 500,
       data: null,
     };
   }

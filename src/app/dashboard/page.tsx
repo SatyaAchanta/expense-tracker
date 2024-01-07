@@ -12,7 +12,6 @@ import { iExpenseEntry, iExpenseResponse } from "@/types";
 
 const Dashboard = () => {
   const expenseStore = useStore();
-  const [expenseStatus, setExpenseStatus] = useAtom(expenseAtom);
 
   const {
     register,
@@ -25,17 +24,12 @@ const Dashboard = () => {
     console.log(`data`, data);
     const submitResponse: iExpenseResponse = await addExpenseEntry(data);
 
+    console.log(`submitResponse`, submitResponse);
     if (submitResponse.status === 200) {
       expenseStore.set(isNewExpenseSaved, true);
       expenseStore.set(expenseAtom, "Changes Saved");
     }
   };
-
-  expenseStore.sub(expenseAtom, () => {
-    if (expenseStore.get(expenseAtom) !== expenseStatus) {
-      setExpenseStatus("Data saved successfully");
-    }
-  });
 
   return (
     <>
