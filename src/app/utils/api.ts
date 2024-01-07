@@ -26,3 +26,23 @@ export const addExpenseEntry = async (
     };
   }
 };
+
+// Get all expenses for the current user from the API endpoint /api/expenses
+// and return iExpenseResponse as a promise. Handle res.ok and res.status along with
+// res.500 with data as null
+
+export const getExpenses = async (): Promise<iExpenseResponse> => {
+  const res = await fetch(new Request(createUrl("/api/expenses")));
+  if (res.ok) {
+    const data = await res.json();
+    return {
+      status: 200,
+      data: data.data,
+    };
+  } else {
+    return {
+      status: 500,
+      data: null,
+    };
+  }
+};

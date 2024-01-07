@@ -2,8 +2,8 @@ export interface iExpenseEntry {
   name: string;
   price: number;
   purchaseDate: Date;
-  description: string;
   place: string;
+  description?: string;
 }
 
 export interface iExpenseResponse {

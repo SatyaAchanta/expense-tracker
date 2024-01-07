@@ -3,7 +3,6 @@ import Link from "next/link";
 
 export default async function Home() {
   const { userId } = await auth();
-  console.log(`----- userId is ${JSON.stringify(userId)}`);
   let href = userId ? "dashboard" : "/sign-in";
 
   return (
