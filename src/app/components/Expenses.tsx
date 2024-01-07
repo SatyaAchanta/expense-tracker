@@ -6,11 +6,11 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { useStore } from "jotai";
 import useSWR from "swr";
+import { getUserExpenses } from "../utils/requests";
 
-const TABLE_HEADERS = ["NAME", "PRICE", "PLACE", "DATE"];
-const TABLE_ROWS = ["name", "price", "place", "purchaseDate"];
+const TABLE_HEADERS = ["DATE", "NAME", "PRICE", "PLACE"];
+const TABLE_ROWS = ["purchaseDate", "name", "price", "place"];
 
 const getTableHeaders = () => {
   return (
@@ -23,45 +23,38 @@ const getTableHeaders = () => {
 };
 
 export const Expenses = () => {
-  const expenseAtom = useStore();
-
-  const { data, error, isLoading } = useSWR("/api/expenses", {
-    fetcher: (url) => fetch(url).then((res) => res.json()),
-  });
+  const { expenses, isLoading, isError } = getUserExpenses();
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error...</div>;
-  if (data) return <div>{JSON.stringify(data)}</div>;
-
-  // return (
-  //   <Table aria-label="Example static collection table">
-  //     {getTableHeaders()}
-  //     <TableBody>
-  //       <TableRow key="1">
-  //         <TableCell>Tony Reichert</TableCell>
-  //         <TableCell>CEO</TableCell>
-  //         <TableCell>Active</TableCell>
-  //         <TableCell>CEO</TableCell>
-  //       </TableRow>
-  //       <TableRow key="2">
-  //         <TableCell>Zoey Lang</TableCell>
-  //         <TableCell>Technical Lead</TableCell>
-  //         <TableCell>Paused</TableCell>
-  //         <TableCell>Technical Lead</TableCell>
-  //       </TableRow>
-  //       <TableRow key="3">
-  //         <TableCell>Jane Fisher</TableCell>
-  //         <TableCell>Senior Developer</TableCell>
-  //         <TableCell>Active</TableCell>
-  //         <TableCell>Senior Developer</TableCell>
-  //       </TableRow>
-  //       <TableRow key="4">
-  //         <TableCell>William Howard</TableCell>
-  //         <TableCell>Community Manager</TableCell>
-  //         <TableCell>Vacation</TableCell>
-  //         <TableCell>Community Manager</TableCell>
-  //       </TableRow>
-  //     </TableBody>
-  //   </Table>
-  // );
+  if (isError) return <div>Error...</div>;
+  if (expenses) {
+    return (
+      <Table aria-label="Example static collection table">
+        {getTableHeaders()}
+        <TableBody>
+          {expenses.data.map((expense) => {
+            return (
+              <TableRow key={expense.id}>
+                {TABLE_ROWS.map((row) => {
+                  if (row === "purchaseDate") {
+                    return (
+                      <TableCell key={expense.id + row}>
+                        {new Date(expense[row]).toLocaleDateString()}
+                      </TableCell>
+                    );
+                  } else {
+                    return (
+                      <TableCell key={expense.id + row}>
+                        {expense[row]}
+                      </TableCell>
+                    );
+                  }
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    );
+  }
 };
