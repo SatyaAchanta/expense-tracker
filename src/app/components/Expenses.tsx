@@ -6,8 +6,9 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import useSWR from "swr";
 import { getUserExpenses } from "../utils/requests";
+import { useEffect } from "react";
+import { expenseStore, isNewExpenseSaved } from "../store/expense";
 
 const TABLE_HEADERS = ["DATE", "NAME", "PRICE", "PLACE"];
 const TABLE_ROWS = ["purchaseDate", "name", "price", "place"];
@@ -23,7 +24,13 @@ const getTableHeaders = () => {
 };
 
 export const Expenses = () => {
-  const { expenses, isLoading, isError } = getUserExpenses();
+  const { expenses, isLoading, isError, mutate } = getUserExpenses();
+
+  useEffect(() => {
+    if (expenseStore.get(isNewExpenseSaved)) {
+      mutate();
+    }
+  }, [expenseStore.get(isNewExpenseSaved)]);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;

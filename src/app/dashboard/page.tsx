@@ -1,16 +1,16 @@
 "use client";
 
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { UserButton } from "@clerk/nextjs";
 import { addExpenseEntry } from "../utils/api";
 import { Button } from "@nextui-org/button";
 import { Input, Textarea, Card, CardBody } from "@nextui-org/react";
-import { useStore, useAtom } from "jotai";
-import { expenseAtom, isNewExpenseSaved } from "../store/expense";
+import { useStore } from "jotai";
+import { isNewExpenseSaved } from "../store/expense";
 import { Expenses } from "../components/Expenses";
 import { useForm, SubmitHandler, FieldError } from "react-hook-form";
 import { iExpenseEntry, iExpenseResponse } from "@/types";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object({
   name: yup.string().required(),
@@ -37,6 +37,7 @@ const Dashboard = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -48,8 +49,9 @@ const Dashboard = () => {
 
     console.log(`submitResponse`, submitResponse);
     if (submitResponse.status === 200) {
+      console.log("Yes new expenses saved");
       expenseStore.set(isNewExpenseSaved, true);
-      expenseStore.set(expenseAtom, "Changes Saved");
+      reset();
     }
   };
 
@@ -67,7 +69,7 @@ const Dashboard = () => {
                 style={{ backgroundColor: "#0071bc", color: "white" }}
               >
                 <CardBody>
-                  <p>{expenseStore.get(expenseAtom)}</p>
+                  <p>Changes Saved</p>
                 </CardBody>
               </Card>
             )}
