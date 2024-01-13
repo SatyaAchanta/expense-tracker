@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export default async function Home() {
   const { userId } = await auth();
-  let href = userId ? "dashboard" : "/sign-in";
+  console.log(`---- userId is ${userId}`);
+  let href = userId ? "new-user" : "/sign-in";
 
   return (
     <div className="w-screen h-screen bg-sky-900 flex justify-center items-center text-white">

@@ -1,6 +1,7 @@
 import { prisma } from "../utils/db";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { getUserNameFromClerkUser } from "../utils/user";
 
 const createNewUser = async () => {
   const loggedInUser = await currentUser();
@@ -10,11 +11,14 @@ const createNewUser = async () => {
     },
   });
 
+  console.log("--- match", match);
+  console.log("--- loggedInUser", loggedInUser);
   if (!match) {
+    console.log(`--- not found user, creating one`);
     const user = await prisma.user.create({
       data: {
         clerkId: loggedInUser!.id,
-        email: loggedInUser!.emailAddresses[0].emailAddress,
+        email: loggedInUser ? getUserNameFromClerkUser(loggedInUser!) : "",
       },
     });
   }
