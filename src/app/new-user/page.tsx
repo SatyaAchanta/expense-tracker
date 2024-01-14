@@ -11,10 +11,7 @@ const createNewUser = async () => {
     },
   });
 
-  console.log("--- match", match);
-  console.log("--- loggedInUser", loggedInUser);
   if (!match) {
-    console.log(`--- not found user, creating one`);
     const user = await prisma.user.create({
       data: {
         clerkId: loggedInUser!.id,

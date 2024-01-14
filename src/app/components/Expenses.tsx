@@ -9,6 +9,8 @@ import {
 import { getUserExpenses } from "../utils/requests";
 import { useEffect } from "react";
 import { expenseStore, isNewExpenseSaved } from "../store/expense";
+import { atom } from "jotai";
+import React from "react";
 
 const TABLE_HEADERS = ["DATE", "NAME", "PRICE", "PLACE"];
 const TABLE_ROWS = ["purchaseDate", "name", "price", "place"];
@@ -24,11 +26,12 @@ const getTableHeaders = () => {
 };
 
 export const Expenses = () => {
-  const { expenses, isLoading, isError, mutate } = getUserExpenses();
+  const { expenses, isLoading, isError } = getUserExpenses();
+  const [, setUpdateExpenses] = React.useState(false);
 
   useEffect(() => {
     if (expenseStore.get(isNewExpenseSaved)) {
-      mutate();
+      setUpdateExpenses(true);
     }
   }, [expenseStore.get(isNewExpenseSaved)]);
 
