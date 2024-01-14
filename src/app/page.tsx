@@ -3,7 +3,6 @@ import Link from "next/link";
 
 export default async function Home() {
   const { userId } = await auth();
-  console.log(`---- userId is ${userId}`);
   let href = userId ? "new-user" : "/sign-in";
 
   return (
