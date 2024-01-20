@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Table,
   TableHeader,
@@ -9,8 +10,7 @@ import {
 import { getUserExpenses } from "../utils/requests";
 import { useEffect } from "react";
 import { expenseStore, isNewExpenseSaved } from "../store/expense";
-import { atom } from "jotai";
-import React from "react";
+import { getDateInUserTimezone } from "../utils/date";
 
 const TABLE_HEADERS = ["DATE", "NAME", "PRICE", "PLACE"];
 const TABLE_ROWS = ["purchaseDate", "name", "price", "place"];
@@ -49,7 +49,7 @@ export const Expenses = () => {
                   if (row === "purchaseDate") {
                     return (
                       <TableCell key={expense.id + row}>
-                        {new Date(expense[row]).toLocaleDateString()}
+                        {getDateInUserTimezone(new Date(expense[row]))}
                       </TableCell>
                     );
                   } else {

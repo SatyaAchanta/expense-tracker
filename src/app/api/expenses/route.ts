@@ -11,7 +11,7 @@ export const GET = async () => {
       userId: user.id,
     },
     orderBy: {
-      purchaseDate: "desc",
+      createdAt: "desc",
     },
     take: 10,
   });
