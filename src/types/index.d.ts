@@ -10,3 +10,12 @@ export interface iExpenseResponse {
   status: number;
   data: any;
 }
+
+interface iIconProps {
+  fill?: string;
+  filled?: boolean;
+  size?: number;
+  height?: number;
+  width?: number;
+  label?: string;
+}

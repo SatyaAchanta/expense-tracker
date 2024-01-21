@@ -46,3 +46,22 @@ export const getExpenses = async (): Promise<iExpenseResponse> => {
     };
   }
 };
+
+export const deleteExpense = async (id: string): Promise<iExpenseResponse> => {
+  const res = await fetch(
+    new Request(createUrl(`/api/expenses/${id}`), {
+      method: "DELETE",
+    })
+  );
+  if (res.ok) {
+    return {
+      status: 200,
+      data: "success",
+    };
+  } else {
+    return {
+      status: 500,
+      data: "failure",
+    };
+  }
+};

@@ -7,8 +7,11 @@ export const expenseAtom = atom("testing");
 
 export const isNewExpenseSaved = atom(false);
 
+export const isExpenseDeleted = atom(false);
+
 export const userExpenses = atom<iExpenseEntry[]>([]);
 
 expenseStore.set(expenseAtom, "Satya testing");
 expenseStore.set(isNewExpenseSaved, false);
 expenseStore.set(userExpenses, []);
+expenseStore.set(isExpenseDeleted, false);
