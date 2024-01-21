@@ -12,34 +12,18 @@ export const EditIcon: React.FC<iIconProps> = ({
 }) => {
   return (
     <svg
-      data-name="Iconly/Curved/Edit"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width={size || width || 24}
-      height={size || height || 24}
-      {...props}
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="bi bi-pencil-square"
+      viewBox="0 0 16 16"
     >
-      <g
-        fill="none"
-        stroke={fill}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeMiterlimit={10}
-        strokeWidth={1.5}
-      >
-        <path
-          data-name="Stroke 1"
-          d="M11.845 21.662C8.153 21.662 5 21.088 5 18.787s3.133-4.425 6.845-4.425c3.692 0 6.845 2.1 6.845 4.4s-3.134 2.9-6.845 2.9z"
-        />
-        <path
-          data-name="Stroke 3"
-          d="M11.837 11.174a4.372 4.372 0 10-.031 0z"
-        />
-        <path
-          data-name="Stroke 5"
-          d="M17.5 6.5v-1a1.5 1.5 0 00-1.5-1.5h-11A1.5 1.5 0 003 5.5v11A1.5 1.5 0 004.5 18h1"
-        />
-      </g>
+      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+      <path
+        fillRule="evenodd"
+        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+      />
     </svg>
   );
 };

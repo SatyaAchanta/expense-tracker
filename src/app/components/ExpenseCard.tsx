@@ -8,12 +8,15 @@ import {
   CardFooter,
 } from "@nextui-org/react";
 import { getDateInUserTimezone } from "../utils/date";
-import { useAtom, useStore } from "jotai";
+import { atom, useAtom, useStore } from "jotai";
 import { ActionModal } from "./ActionModal";
 import { deleteExpense } from "../utils/api";
 import { isExpenseDeleted } from "../store/expense";
 import { mutate } from "swr";
-import { DeleteIcon } from "./DeleteIcon";
+import { DeleteIcon } from "./icons/DeleteIcon";
+import { EditIcon } from "./EditIcon";
+
+const DELETE_MESSAGE = "Are you sure you want to delete this expense?";
 
 interface ExpenseCardProps {
   purchase: string;
@@ -23,6 +26,8 @@ interface ExpenseCardProps {
   id: string;
 }
 
+const isEditAtom = atom(false);
+
 export const ExpenseCard: React.FC<ExpenseCardProps> = ({
   purchase,
   date,
@@ -30,7 +35,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
   price,
   id,
 }) => {
-  const [, setIsExpenseDeleted] = useAtom(isExpenseDeleted);
+  const [isEdit, setIsEdit] = useAtom(isEditAtom);
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const onDelete = async () => {
@@ -63,8 +68,8 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
           <label className="text-s italic">{description}</label>
         </CardBody>
         <CardFooter className="justify-end">
-          {/* <Button color="primary" variant="light" size="sm">
-            <Edit />
+          {/* <Button color="primary" isIconOnly variant="light" size="md">
+            <EditIcon />
           </Button> */}
 
           <Button
@@ -72,19 +77,22 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
             variant="light"
             size="md"
             isIconOnly
-            onPress={onOpen}
+            onClick={onOpen}
           >
             <DeleteIcon />
           </Button>
-          <ActionModal
-            isOpen={isOpen}
-            onOpenChange={onOpenChange}
-            onModalClose={onClose}
-            onModalAction={onDelete}
-            actionButtonTitle="Delete"
-          />
         </CardFooter>
       </Card>
+      <ActionModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onModalClose={onClose}
+        onModalAction={onDelete}
+        actionButtonTitle="Delete"
+        header="Delete Expense"
+        body="Are you sure you want to delete this expense?"
+        isEdit={isEdit}
+      />
     </>
   );
 };
