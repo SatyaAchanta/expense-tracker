@@ -14,6 +14,7 @@ export const ExpenseCards = (data: any) => {
               description={expense.description}
               price={expense.price}
               id={expense.id}
+              place={expense.place}
             />
           </div>
         );

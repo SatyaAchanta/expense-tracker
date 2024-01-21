@@ -1,4 +1,7 @@
 import { iExpenseEntry, iExpenseResponse } from "@/types";
+import { NextResponse } from "next/server";
+import { getUserByClerkId } from "./auth";
+import { prisma } from "./db";
 
 const createUrl = (path: string) => {
   return window.location.origin + path;
@@ -62,6 +65,31 @@ export const deleteExpense = async (id: string): Promise<iExpenseResponse> => {
     return {
       status: 500,
       data: "failure",
+    };
+  }
+};
+
+export const updateExpense = async (
+  id: string,
+  content: iExpenseEntry
+): Promise<iExpenseResponse> => {
+  const res = await fetch(
+    new Request(createUrl(`/api/expenses/${id}`), {
+      method: "PATCH",
+      body: JSON.stringify({ content }),
+    })
+  );
+
+  if (res.ok) {
+    const data = await res.json();
+    return {
+      status: 200,
+      data: data.data,
+    };
+  } else {
+    return {
+      status: 500,
+      data: null,
     };
   }
 };

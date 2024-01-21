@@ -10,11 +10,13 @@ import {
 import { getDateInUserTimezone } from "../utils/date";
 import { atom, useAtom, useStore } from "jotai";
 import { ActionModal } from "./ActionModal";
-import { deleteExpense } from "../utils/api";
+import { deleteExpense, updateExpense } from "../utils/api";
 import { isExpenseDeleted } from "../store/expense";
 import { mutate } from "swr";
 import { DeleteIcon } from "./icons/DeleteIcon";
 import { EditIcon } from "./EditIcon";
+import { on } from "events";
+import { UpdateForm } from "./UpdateModal";
 
 const DELETE_MESSAGE = "Are you sure you want to delete this expense?";
 
@@ -24,6 +26,7 @@ interface ExpenseCardProps {
   description: string;
   price: number;
   id: string;
+  place: string;
 }
 
 const isEditAtom = atom(false);
@@ -34,6 +37,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
   description,
   price,
   id,
+  place,
 }) => {
   const [isEdit, setIsEdit] = useAtom(isEditAtom);
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -49,6 +53,14 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
       console.log("Error deleting expense: ", data);
     }
     onClose();
+  };
+
+  const onUpdated = async () => {
+    // console.log("Updated expense: ", id);
+
+    alert("Updated expense: ");
+    onClose();
+    // mutate("/api/expenses");
   };
 
   return (
@@ -68,9 +80,18 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
           <label className="text-s italic">{description}</label>
         </CardBody>
         <CardFooter className="justify-end">
-          {/* <Button color="primary" isIconOnly variant="light" size="md">
+          <Button
+            color="primary"
+            isIconOnly
+            variant="light"
+            size="md"
+            onClick={() => {
+              setIsEdit(true);
+              onOpen();
+            }}
+          >
             <EditIcon />
-          </Button> */}
+          </Button>
 
           <Button
             color="danger"
@@ -87,10 +108,24 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         onModalClose={onClose}
-        onModalAction={onDelete}
-        actionButtonTitle="Delete"
-        header="Delete Expense"
-        body="Are you sure you want to delete this expense?"
+        onModalAction={isEdit ? onUpdated : onDelete}
+        actionButtonTitle={isEdit ? "Save" : "Delete"}
+        header={isEdit ? "Edit Expense" : "Delete Expense"}
+        body={
+          isEdit ? (
+            <UpdateForm
+              id={id}
+              name={purchase}
+              place={place}
+              price={price}
+              description={description}
+              purchaseDate={date}
+              closeModal={onClose}
+            />
+          ) : (
+            DELETE_MESSAGE
+          )
+        }
         isEdit={isEdit}
       />
     </>

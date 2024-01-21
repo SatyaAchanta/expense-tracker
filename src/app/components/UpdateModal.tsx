@@ -7,11 +7,26 @@ import { isNewExpenseSaved } from "../store/expense";
 import { Input, Textarea, Card, CardBody, Button } from "@nextui-org/react";
 import { iExpenseEntry, iExpenseResponse } from "@/types";
 import { useStore } from "jotai";
-import { addExpenseEntry } from "../utils/api";
-import { BagIcon } from "./icons/BagIcon";
-import { CashIcon } from "./icons/CashIcon";
+import { addExpenseEntry, updateExpense } from "../utils/api";
+import { getDateForInputView, getDateInUserTimezone } from "../utils/date";
+import { on } from "events";
+import { mutate } from "swr";
 import { ShopIcon } from "./icons/ShopIcon";
+import { CashIcon } from "./icons/CashIcon";
+import { BagIcon } from "./icons/BagIcon";
+import { DetailsIcon } from "./icons/DetailsIcon";
+import { Calendar } from "react-feather";
 import { CalendarIcon } from "./icons/CalendarIcon";
+
+interface iUpdateFormProps {
+  id: string;
+  name: string;
+  price: number;
+  purchaseDate: string;
+  place: string;
+  description?: string;
+  closeModal: () => void;
+}
 
 const schema = yup.object({
   name: yup.string().required(),
@@ -31,18 +46,19 @@ const isInvalidElement = (
   return false;
 };
 
-export const EntryForm = () => {
-  const expenseStore = useStore();
+export const UpdateForm: React.FC<iUpdateFormProps> = (
+  expense: iUpdateFormProps,
+) => {
+  console.log(`expense`, expense);
 
   const onSubmit: SubmitHandler<iExpenseEntry> = async (data) => {
-    console.log(`data`, data);
-    const submitResponse: iExpenseResponse = await addExpenseEntry(data);
+    const res = await updateExpense(expense.id, data);
 
-    console.log(`submitResponse`, submitResponse);
-    if (submitResponse.status === 200) {
+    console.log(`submitResponse`, res);
+    if (res.status === 200) {
       console.log("Yes new expenses saved");
-      expenseStore.set(isNewExpenseSaved, true);
-      reset();
+      mutate("/api/expenses");
+      expense.closeModal();
     }
   };
 
@@ -59,16 +75,6 @@ export const EntryForm = () => {
   return (
     <div className="grid">
       <form onSubmit={handleSubmit(onSubmit)} className="m-2 w-auto md:ml-8">
-        {expenseStore.get(isNewExpenseSaved) && (
-          <Card
-            className="w-80 mb-4"
-            style={{ backgroundColor: "#0071bc", color: "white" }}
-          >
-            <CardBody>
-              <p>Changes Saved</p>
-            </CardBody>
-          </Card>
-        )}
         <Input
           className="mb-4"
           type="text"
@@ -77,6 +83,7 @@ export const EntryForm = () => {
           {...register("name", { required: true, maxLength: 40 })}
           errorMessage={isInvalidElement("name", errors.name) && "Required"}
           color={isInvalidElement("name", errors.name) ? "danger" : "default"}
+          defaultValue={expense.name}
           startContent={<BagIcon />}
         />
 
@@ -88,6 +95,7 @@ export const EntryForm = () => {
           isInvalid={errors.price?.message !== undefined ? true : false}
           color={isInvalidElement("price", errors.price) ? "danger" : "default"}
           errorMessage={isInvalidElement("price", errors.price) && "Required"}
+          defaultValue={expense.price.toString()}
           startContent={<CashIcon />}
         />
 
@@ -99,23 +107,25 @@ export const EntryForm = () => {
           isInvalid={isInvalidElement("place", errors.place)}
           color={isInvalidElement("place", errors.place) ? "danger" : "default"}
           errorMessage={isInvalidElement("place", errors.place) && "Required"}
+          defaultValue={expense.place}
           startContent={<ShopIcon />}
         />
 
         <Textarea
           className="mb-4"
           type="text"
-          placeholder="brief description with card details"
+          placeholder="brief description"
           maxLength={100}
           minRows={2}
           maxRows={4}
           variant="bordered"
+          defaultValue={expense.description}
           {...register("description")}
         />
         <Input
           className="mb-4"
           type="date"
-          placeholder="Expense Date"
+          placeholder="Date of purchase"
           isInvalid={isInvalidElement("purchaseDate", errors.purchaseDate)}
           color={
             isInvalidElement("purchaseDate", errors.purchaseDate)
@@ -125,13 +135,24 @@ export const EntryForm = () => {
           errorMessage={
             isInvalidElement("purchaseDate", errors.purchaseDate) && "Required"
           }
+          defaultValue={getDateForInputView(new Date(expense.purchaseDate))}
           startContent={<CalendarIcon />}
           {...register("purchaseDate", { required: true })}
         />
 
-        <Button type="submit" color="primary" className="justify-center">
-          Submit
-        </Button>
+        <div className="flex justify-end gap-2">
+          <Button
+            color="primary"
+            className="justify-center"
+            variant="bordered"
+            onClick={expense.closeModal}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" color="primary" className="justify-center">
+            Submit
+          </Button>
+        </div>
       </form>
     </div>
   );

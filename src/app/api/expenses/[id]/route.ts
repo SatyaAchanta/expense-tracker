@@ -1,33 +1,39 @@
 import { getUserByClerkId } from "@/app/utils/auth";
 import { prisma } from "@/app/utils/db";
 import { revalidatePath } from "next/cache";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-// export const PATCH = async (req: Request, { params }) => {
-//   const { content } = await req.json();
-//   const user = await getUserByClerkId();
+export const PATCH = async (req: Request, { params }) => {
+  const { content } = await req.json();
+  const user = await getUserByClerkId();
 
-//   const updatedExpense = await prisma.expense.update({
-//     where: {
-//       userId_id: {
-//         id: params.id,
-//         userId: user.id,
-//       },
-//     },
-//     data: {
-//       content,
-//     },
-//   });
+  console.log(" ---- before update ---- ");
 
-//   revalidatePath("/dashboard");
+  const updatedExpense = await prisma.expense.update({
+    where: {
+      userId_id: {
+        id: params.id,
+        userId: user.id,
+      },
+    },
+    data: {
+      place: content.place,
+      price: content.price,
+      name: content.name,
+      description: content.description,
+      purchaseDate: content.purchaseDate,
+    },
+  });
 
-//   return NextResponse.json({ data }`/expenses/${expense.id}`);
-// };
+  console.log(" ---- after update ---- ");
+
+  revalidatePath("/dashboard");
+
+  return NextResponse.json({ data: updatedExpense });
+};
 
 export const DELETE = async (req: Request, { params }) => {
   const user = await getUserByClerkId();
-
-  console.log("---- before delete");
 
   await prisma.expense.delete({
     where: {
@@ -37,8 +43,6 @@ export const DELETE = async (req: Request, { params }) => {
       },
     },
   });
-
-  console.log(`----- after delete`);
 
   revalidatePath("/dashboard");
 

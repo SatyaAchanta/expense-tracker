@@ -14,3 +14,10 @@ export const getDateInUserTimezone = (date: Date) => {
 
   return dateInUserTimezone.format("L");
 };
+
+export const getDateForInputView = (date: Date) => {
+  const timezone = dayjs.tz.guess();
+  const dateInUserTimezone = dayjs.tz(date.toLocaleString(), timezone);
+
+  return dateInUserTimezone.format("YYYY-MM-DD");
+};

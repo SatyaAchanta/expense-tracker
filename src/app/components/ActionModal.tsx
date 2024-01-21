@@ -37,18 +37,16 @@ export const ActionModal: React.FC<iModalProps> = ({
           <>
             <ModalHeader className="flex flex-col gap-1">{header}</ModalHeader>
             <ModalBody>{body}</ModalBody>
-            <ModalFooter>
-              <Button color="default" onPress={onModalClose}>
-                Close
-              </Button>
-              <Button
-                color={isEdit ? "primary" : "danger"}
-                onPress={onModalAction}
-                type={isEdit ? "submit" : "button"}
-              >
-                {actionButtonTitle}
-              </Button>
-            </ModalFooter>
+            {!isEdit && (
+              <ModalFooter>
+                <Button color="default" onPress={onModalClose}>
+                  Close
+                </Button>
+                <Button color={"danger"} onPress={onModalAction}>
+                  {actionButtonTitle}
+                </Button>
+              </ModalFooter>
+            )}
           </>
         )}
       </ModalContent>
