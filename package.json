@@ -15,6 +15,7 @@
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.7.1",
     "@vercel/analytics": "^1.1.1",
+    "bootstrap-icons": "^1.11.3",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.16",
     "jotai": "^2.6.1",

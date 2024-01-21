@@ -11,16 +11,20 @@ import {
 
 interface iModalProps {
   isOpen: boolean;
+  isEdit: boolean;
+  actionButtonTitle: string;
   onOpenChange: () => void;
   onModalClose: () => void;
   onModalAction: () => void;
 }
 
-export const EditModal: React.FC<iModalProps> = ({
+export const ActionModal: React.FC<iModalProps> = ({
   isOpen,
+  isEdit,
   onOpenChange,
   onModalClose,
   onModalAction,
+  actionButtonTitle,
 }) => {
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -32,11 +36,14 @@ export const EditModal: React.FC<iModalProps> = ({
             </ModalHeader>
             <ModalBody>Really ?</ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onModalClose}>
+              <Button color="default" onPress={onModalClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={onModalAction}>
-                Action
+              <Button
+                color={isEdit ? "primary" : "danger"}
+                onPress={onModalAction}
+              >
+                {actionButtonTitle}
               </Button>
             </ModalFooter>
           </>

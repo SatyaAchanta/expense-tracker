@@ -9,11 +9,11 @@ import {
 } from "@nextui-org/react";
 import { getDateInUserTimezone } from "../utils/date";
 import { useAtom, useStore } from "jotai";
-import { EditModal } from "./EditModal";
+import { ActionModal } from "./ActionModal";
 import { deleteExpense } from "../utils/api";
 import { isExpenseDeleted } from "../store/expense";
 import { mutate } from "swr";
-import { Delete } from "react-feather";
+import { DeleteIcon } from "./DeleteIcon";
 
 interface ExpenseCardProps {
   purchase: string;
@@ -67,14 +67,21 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
             <Edit />
           </Button> */}
 
-          <Button color="danger" variant="light" size="sm" onPress={onOpen}>
-            <Delete />
+          <Button
+            color="danger"
+            variant="light"
+            size="md"
+            isIconOnly
+            onPress={onOpen}
+          >
+            <DeleteIcon />
           </Button>
-          <EditModal
+          <ActionModal
             isOpen={isOpen}
             onOpenChange={onOpenChange}
             onModalClose={onClose}
             onModalAction={onDelete}
+            actionButtonTitle="Delete"
           />
         </CardFooter>
       </Card>

@@ -12,27 +12,15 @@ export const DeleteIcon: React.FC<iIconProps> = ({
 }) => {
   return (
     <svg
-      data-name="Iconly/Curved/Delete"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width={size || width || 24}
-      height={size || height || 24}
-      {...props}
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-trash"
+      viewBox="0 0 16 16"
     >
-      <g
-        fill="none"
-        stroke={fill}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeMiterlimit={10}
-        strokeWidth={1.5}
-      >
-        <path
-          data-name="Stroke 1"
-          d="M21 8v12a3 3 0 01-3 3H6a3 3 0 01-3-3V8a1 1 0 011-1h4.173a1 1 0 01.986.836l1.717 10.302a2 2 0 002 1.862h2.424a2 2 0 002-1.862L16.841 7.8A1 1 0 0118.827 7H21a1 1 0 011 1z"
-        />
-        <path data-name="Stroke 3" d="M10 6V3a1 1 0 011-1h2a1 1 0 011 1v3" />
-      </g>
+      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
     </svg>
   );
 };
