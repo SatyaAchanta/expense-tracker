@@ -55,12 +55,9 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
     onClose();
   };
 
-  const onUpdated = async () => {
-    // console.log("Updated expense: ", id);
-
-    alert("Updated expense: ");
+  const onModalClose = () => {
+    setIsEdit(false);
     onClose();
-    // mutate("/api/expenses");
   };
 
   return (
@@ -108,7 +105,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         onModalClose={onClose}
-        onModalAction={isEdit ? onUpdated : onDelete}
+        onModalAction={onDelete}
         actionButtonTitle={isEdit ? "Save" : "Delete"}
         header={isEdit ? "Edit Expense" : "Delete Expense"}
         body={
@@ -120,7 +117,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
               price={price}
               description={description}
               purchaseDate={date}
-              closeModal={onClose}
+              closeModal={onModalClose}
             />
           ) : (
             DELETE_MESSAGE
