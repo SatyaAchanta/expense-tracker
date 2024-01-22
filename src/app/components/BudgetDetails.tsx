@@ -56,12 +56,7 @@ const BudgetDetails = () => {
           </div>
         </div>
       )}
-      {budgetMaxValue == 0 && (
-        <BudgetSettings
-          budgetValue={budgetMaxValue}
-          flagExpenseValue={flagExpenseValue}
-        />
-      )}
+      {budgetMaxValue == 0 && <BudgetSettings />}
     </div>
   );
 };
