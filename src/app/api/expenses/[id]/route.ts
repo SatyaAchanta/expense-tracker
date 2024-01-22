@@ -7,8 +7,6 @@ export const PATCH = async (req: Request, { params }) => {
   const { content } = await req.json();
   const user = await getUserByClerkId();
 
-  console.log(" ---- before update ---- ");
-
   const updatedExpense = await prisma.expense.update({
     where: {
       userId_id: {
@@ -24,8 +22,6 @@ export const PATCH = async (req: Request, { params }) => {
       purchaseDate: content.purchaseDate,
     },
   });
-
-  console.log(" ---- after update ---- ");
 
   revalidatePath("/dashboard");
 

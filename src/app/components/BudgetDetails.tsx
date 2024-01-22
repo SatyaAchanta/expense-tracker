@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { BudgetSettings } from "./BudgetSettings";
-import { budgetMax, totalExpenses } from "../store/expense";
+import {
+  budgetMax,
+  flagExpenseThreshold,
+  totalExpenses,
+} from "../store/expense";
 import { getTotalExpenses, getUserBudget } from "../utils/requests";
 import { Divider, Progress, Spacer, Spinner } from "@nextui-org/react";
 
@@ -12,11 +16,14 @@ const BudgetDetails = () => {
 
   const [budgetMaxValue, setBudgetMaxValue] = useAtom(budgetMax);
 
+  const [flagExpenseValue, setFlagExpenseValue] = useAtom(flagExpenseThreshold);
+
   const [totalExpensesValue, setTotalExpensesValue] = useAtom(totalExpenses);
 
   useEffect(() => {
     if (res && !isError) {
       setBudgetMaxValue(res.data.budget);
+      setFlagExpenseValue(res.data.flagExpenseTreshold);
     }
   }, [res, isError]);
 
@@ -49,7 +56,12 @@ const BudgetDetails = () => {
           </div>
         </div>
       )}
-      {budgetMaxValue == 0 && <BudgetSettings />}
+      {budgetMaxValue == 0 && (
+        <BudgetSettings
+          budgetValue={budgetMaxValue}
+          flagExpenseValue={flagExpenseValue}
+        />
+      )}
     </div>
   );
 };

@@ -1,18 +1,19 @@
-import { Button, Divider, Spacer } from "@nextui-org/react";
+import { Button, Spacer } from "@nextui-org/react";
 import { DashIcon } from "./icons/DashIcon";
 import { PlusIcon } from "./icons/PlusIcon";
 import { updateUserBudget } from "../utils/api";
-import { atom, useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { budgetMax, flagExpenseThreshold } from "../store/expense";
+import { useState } from "react";
 
-const budgetAtom = atom(0);
-const flagExpenseAtom = atom(0);
+// const budgetAtom = atom((get) => get(budgetMax));
+// const flagExpenseAtom = atom((get) => get(flagExpenseThreshold));
 
 export const BudgetSettings = () => {
-  const setBudgetValue = useSetAtom(budgetMax);
-  const setFlagExpenseValue = useSetAtom(flagExpenseThreshold);
-  const [budget, setBudget] = useAtom(budgetAtom);
-  const [flagExpense, setFlagExpense] = useAtom(flagExpenseAtom);
+  const [budgetValue, setBudgetValue] = useAtom(budgetMax);
+  const [flagExpenseValue, setFlagExpenseValue] = useAtom(flagExpenseThreshold);
+  const [budget, setBudget] = useState(budgetValue);
+  const [flagExpense, setFlagExpense] = useState(flagExpenseValue);
 
   const saveBudget = async (budget: number, flagExpensThreshold: number) => {
     const { data, status } = await updateUserBudget(
@@ -30,7 +31,7 @@ export const BudgetSettings = () => {
 
   return (
     <>
-      <div className="budget">
+      <div className="budget mt-4">
         <div className="flex text-2xl justify-center">
           Set your total budget
         </div>

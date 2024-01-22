@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 export const PATCH = async (req: Request) => {
   const { budget, flagExpenseTreshold } = await req.json();
 
-  console.log("content", budget, flagExpenseTreshold);
   const user = await getUserByClerkId();
 
   const updatedExpense = await prisma.user.update({
@@ -31,8 +30,6 @@ export const GET = async () => {
       id: user.id,
     },
   });
-
-  console.log("userData", userData);
 
   revalidatePath("/dashboard");
 
