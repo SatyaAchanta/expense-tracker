@@ -8,8 +8,8 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Expense Tracker",
-  description: "Your Personal Expense Tracker",
+  title: "Bugdet Tracker",
+  description: "Your Personal Budget Tracker",
 };
 
 export default function RootLayout({

@@ -3,19 +3,14 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FieldError } from "react-hook-form";
-import { isNewExpenseSaved } from "../store/expense";
-import { Input, Textarea, Card, CardBody, Button } from "@nextui-org/react";
+import { Input, Textarea, Button } from "@nextui-org/react";
 import { iExpenseEntry, iExpenseResponse } from "@/types";
-import { useStore } from "jotai";
 import { addExpenseEntry, updateExpense } from "../utils/api";
-import { getDateForInputView, getDateInUserTimezone } from "../utils/date";
-import { on } from "events";
+import { getDateForInputView } from "../utils/date";
 import { mutate } from "swr";
 import { ShopIcon } from "./icons/ShopIcon";
 import { CashIcon } from "./icons/CashIcon";
 import { BagIcon } from "./icons/BagIcon";
-import { DetailsIcon } from "./icons/DetailsIcon";
-import { Calendar } from "react-feather";
 import { CalendarIcon } from "./icons/CalendarIcon";
 
 interface iUpdateFormProps {
@@ -25,6 +20,7 @@ interface iUpdateFormProps {
   purchaseDate: string;
   place: string;
   description?: string;
+  isUpdate: boolean;
   closeModal: () => void;
 }
 
@@ -46,18 +42,20 @@ const isInvalidElement = (
   return false;
 };
 
-export const UpdateForm: React.FC<iUpdateFormProps> = (
+export const ExpenseForm: React.FC<iUpdateFormProps> = (
   expense: iUpdateFormProps,
 ) => {
-  console.log(`expense`, expense);
-
   const onSubmit: SubmitHandler<iExpenseEntry> = async (data) => {
-    const res = await updateExpense(expense.id, data);
+    let res = null;
+    if (expense.isUpdate) {
+      res = await updateExpense(expense.id, data);
+    } else {
+      res = await addExpenseEntry(data);
+    }
 
-    console.log(`submitResponse`, res);
     if (res.status === 200) {
-      console.log("Yes new expenses saved");
       mutate("/api/expenses");
+      reset();
       expense.closeModal();
     }
   };
@@ -143,7 +141,7 @@ export const UpdateForm: React.FC<iUpdateFormProps> = (
         <div className="flex justify-end gap-2">
           <Button
             color="primary"
-            className="justify-center"
+            className="justify-center md:hidden"
             variant="bordered"
             onClick={expense.closeModal}
           >

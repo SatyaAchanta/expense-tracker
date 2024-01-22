@@ -3,15 +3,15 @@ import { atom, createStore } from "jotai";
 
 export const expenseStore = createStore();
 
-export const expenseAtom = atom("testing");
-
-export const isNewExpenseSaved = atom(false);
-
-export const isExpenseDeleted = atom(false);
-
 export const userExpenses = atom<iExpenseEntry[]>([]);
 
-expenseStore.set(expenseAtom, "Satya testing");
-expenseStore.set(isNewExpenseSaved, false);
+export const budgetMax = atom<number>(0);
+
+export const flagExpenseThreshold = atom<number>(0);
+
+export const totalExpenses = atom<number>(0);
+
 expenseStore.set(userExpenses, []);
-expenseStore.set(isExpenseDeleted, false);
+expenseStore.set(budgetMax, 0);
+expenseStore.set(flagExpenseThreshold, 0);
+expenseStore.set(totalExpenses, 0);

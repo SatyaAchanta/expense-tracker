@@ -6,36 +6,36 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
-
-
 model User {
-  id String @id @default(uuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  clerkId String @unique
-  email String @unique
-  expenses Expense[]
+  clerkId             String    @unique
+  email               String    @unique
+  budget              Int       @default(0)
+  flagExpenseTreshold Int       @default(0)
+  expenses            Expense[]
 }
 
 model Expense {
-  id String @id @default(uuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  
-  name String @db.Text
-  price Decimal @db.Decimal(9,2)
-  description String @db.Text
-  place String
+
+  name         String   @db.Text
+  price        Decimal  @db.Decimal(9, 2)
+  description  String   @db.Text
+  place        String
   purchaseDate DateTime @db.Date
 
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   @@unique([userId, id])
 }

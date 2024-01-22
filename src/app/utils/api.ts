@@ -93,3 +93,43 @@ export const updateExpense = async (
     };
   }
 };
+
+export const updateUserBudget = async (
+  budget: number,
+  flagExpenseTreshold: number
+): Promise<iExpenseResponse> => {
+  const res = await fetch(
+    new Request(createUrl("/api/budget"), {
+      method: "PATCH",
+      body: JSON.stringify({ budget, flagExpenseTreshold }),
+    })
+  );
+  if (res.ok) {
+    const data = await res.json();
+    return {
+      status: 200,
+      data: data.data,
+    };
+  } else {
+    return {
+      status: 500,
+      data: null,
+    };
+  }
+};
+
+export const getUserBudget = async (): Promise<iExpenseResponse> => {
+  const res = await fetch(new Request(createUrl("/api/budget")));
+  if (res.ok) {
+    const data = await res.json();
+    return {
+      status: 200,
+      data: data.data,
+    };
+  } else {
+    return {
+      status: 500,
+      data: null,
+    };
+  }
+};

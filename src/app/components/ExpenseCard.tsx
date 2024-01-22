@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -10,13 +10,11 @@ import {
 import { getDateInUserTimezone } from "../utils/date";
 import { atom, useAtom, useStore } from "jotai";
 import { ActionModal } from "./ActionModal";
-import { deleteExpense, updateExpense } from "../utils/api";
-import { isExpenseDeleted } from "../store/expense";
+import { deleteExpense } from "../utils/api";
 import { mutate } from "swr";
 import { DeleteIcon } from "./icons/DeleteIcon";
 import { EditIcon } from "./EditIcon";
-import { on } from "events";
-import { UpdateForm } from "./UpdateModal";
+import { ExpenseForm } from "./ExpenseForm";
 
 const DELETE_MESSAGE = "Are you sure you want to delete this expense?";
 
@@ -43,14 +41,12 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const onDelete = async () => {
-    console.log("Deleting expense: ", id);
     const { data, status } = await deleteExpense(id);
 
     if (status == 200) {
-      console.log("Deleted expense: ", data);
       mutate("/api/expenses");
     } else {
-      console.log("Error deleting expense: ", data);
+      console.log("Error deleting expense: ");
     }
     onClose();
   };
@@ -95,7 +91,10 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
             variant="light"
             size="md"
             isIconOnly
-            onClick={onOpen}
+            onClick={() => {
+              setIsEdit(false);
+              onOpen();
+            }}
           >
             <DeleteIcon />
           </Button>
@@ -110,7 +109,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
         header={isEdit ? "Edit Expense" : "Delete Expense"}
         body={
           isEdit ? (
-            <UpdateForm
+            <ExpenseForm
               id={id}
               name={purchase}
               place={place}
@@ -118,6 +117,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
               description={description}
               purchaseDate={date}
               closeModal={onModalClose}
+              isUpdate={true}
             />
           ) : (
             DELETE_MESSAGE
