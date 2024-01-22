@@ -1,19 +1,19 @@
-import { Button, Spacer } from "@nextui-org/react";
+import { Button, Card, CardHeader, Progress, Spacer } from "@nextui-org/react";
 import { DashIcon } from "./icons/DashIcon";
 import { PlusIcon } from "./icons/PlusIcon";
 import { updateUserBudget } from "../utils/api";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 import { budgetMax, flagExpenseThreshold } from "../store/expense";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-// const budgetAtom = atom((get) => get(budgetMax));
-// const flagExpenseAtom = atom((get) => get(flagExpenseThreshold));
+const showMessageAtom = atom(false);
 
 export const BudgetSettings = () => {
   const [budgetValue, setBudgetValue] = useAtom(budgetMax);
   const [flagExpenseValue, setFlagExpenseValue] = useAtom(flagExpenseThreshold);
   const [budget, setBudget] = useState(budgetValue);
   const [flagExpense, setFlagExpense] = useState(flagExpenseValue);
+  const [showSaveMesage, setShowSaveMessage] = useAtom(showMessageAtom);
 
   const saveBudget = async (budget: number, flagExpensThreshold: number) => {
     const { data, status } = await updateUserBudget(
@@ -24,13 +24,29 @@ export const BudgetSettings = () => {
     if (status == 200) {
       setBudgetValue(data.budget);
       setFlagExpenseValue(data.flagExpenseTreshold);
+      setShowSaveMessage(true);
     } else {
       console.log("Error saving budget: ");
     }
   };
 
+  useEffect(() => {
+    if (showMessageAtom) {
+      setTimeout(() => {
+        setShowSaveMessage(false);
+      }, 10000);
+    }
+  }, [showSaveMesage]);
+
   return (
     <>
+      {showSaveMesage && (
+        <div className="flex justify-center">
+          <Card className="bg-sky-700 text-stone-300 font-semibold m-8">
+            <CardHeader className="text-xl">Budget Saved</CardHeader>
+          </Card>
+        </div>
+      )}
       <div className="budget mt-4">
         <div className="flex text-2xl justify-center">
           Set your total budget

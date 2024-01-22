@@ -7,7 +7,7 @@ import {
   useDisclosure,
   CardFooter,
 } from "@nextui-org/react";
-import { getDateInUserTimezone } from "../utils/date";
+import { getDateInReadableFormat, getDateInUserTimezone } from "../utils/date";
 import { atom, useAtom, useAtomValue, useStore } from "jotai";
 import { ActionModal } from "./ActionModal";
 import { deleteExpense } from "../utils/api";
@@ -62,15 +62,14 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
     <>
       <Card className="flex">
         <CardHeader className="pb-0 justify-between">
-          <label className="basis-1/2 text-3xl">{purchase}</label>
+          <label className="basis-1/2 uppercase text-xl">{purchase}</label>
           <div>
-            <label className="text-sm">$</label>
-            <label className="text-5xl">{price}</label>
+            <label className="text-sky-900 text-3xl">${price}</label>
           </div>
         </CardHeader>
         <CardBody className="py-0">
-          <label className="text-sm italic">
-            {getDateInUserTimezone(new Date(date))}
+          <label className="text-sm">
+            {getDateInReadableFormat(new Date(date))}
           </label>
           {/* <label className="text-s italic">{description}</label> */}
         </CardBody>

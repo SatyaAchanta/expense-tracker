@@ -21,3 +21,10 @@ export const getDateForInputView = (date: Date) => {
 
   return dateInUserTimezone.format("YYYY-MM-DD");
 };
+
+export const getDateInReadableFormat = (date: Date) => {
+  const timezone = dayjs.tz.guess();
+  const dateInUserTimezone = dayjs.tz(date.toLocaleString(), timezone);
+
+  return dateInUserTimezone.format("ll");
+};
