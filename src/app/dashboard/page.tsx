@@ -19,7 +19,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div>
+      <div className="md:hidden">
         <header className="flex w-full items-center justify-between md:justify-end px-6 py-6 border-b">
           <UserButton />
           <Button
@@ -95,6 +95,12 @@ const Dashboard = () => {
         }
         isEdit={true}
       />
+      <div className="hidden md:flex justify-center h-screen items-center">
+        <label className="text-3xl font-serif">
+          OOPS. We are only for mobile devices. Please visit us from mobile
+          screen
+        </label>
+      </div>
     </>
   );
 };

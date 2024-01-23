@@ -12,6 +12,7 @@ import {
   CardBody,
   CardHeader,
   Progress,
+  Skeleton,
   Spinner,
 } from "@nextui-org/react";
 import { AlertIcon } from "./icons/AlertIcon";
@@ -54,7 +55,7 @@ const BudgetDetails = () => {
 
   return (
     <div className="mt-8">
-      {isLoading && <Spinner />}
+      {isLoading && <Spinner size="lg" label="loading..." />}
       {budgetMaxValue !== 0 && (
         <div>
           <div className="flex justify-center font-semibold">TOTAL BUDGET</div>
@@ -93,7 +94,7 @@ const BudgetDetails = () => {
           </div>
         </div>
       )}
-      {budgetMaxValue == 0 && <BudgetSettings />}
+      {budgetMaxValue == 0 && !isLoading && <BudgetSettings />}
     </div>
   );
 };

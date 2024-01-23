@@ -31,7 +31,12 @@ export const ActionModal: React.FC<iModalProps> = ({
   body,
 }) => {
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} hideCloseButton={true}>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      hideCloseButton={true}
+      className="font-serif"
+    >
       <ModalContent>
         {(onModalClose) => (
           <>

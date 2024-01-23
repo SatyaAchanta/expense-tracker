@@ -71,7 +71,7 @@ export const ExpenseForm: React.FC<iUpdateFormProps> = (
   });
 
   return (
-    <div className="grid">
+    <div className="grid font-serif">
       <form onSubmit={handleSubmit(onSubmit)} className="m-2 w-auto md:ml-8">
         <Input
           className="mb-4"

@@ -39,16 +39,16 @@ export const BudgetSettings = () => {
   }, [showSaveMesage]);
 
   return (
-    <>
+    <div>
       {showSaveMesage && (
         <div className="flex justify-center">
           <Card className="bg-sky-700 text-stone-300 font-semibold m-8">
-            <CardHeader className="text-xl">Budget Saved</CardHeader>
+            <CardHeader className="text-xl font-serif">Budget Saved</CardHeader>
           </Card>
         </div>
       )}
       <div className="budget mt-4">
-        <div className="flex text-2xl justify-center">
+        <div className="flex text-2xl justify-center font-serif">
           Set your total budget
         </div>
         <div className="flex justify-between m-8 items-center">
@@ -79,7 +79,7 @@ export const BudgetSettings = () => {
       </div>
       <Spacer y={4} />
       <div className="flag-expense mt-8">
-        <div className="flex text-2xl justify-center">
+        <div className="flex text-2xl justify-center font-serif">
           Flag Expenses Greater Than
         </div>
         <div className="flex justify-between m-8 items-center">
@@ -118,10 +118,11 @@ export const BudgetSettings = () => {
           onClick={() => {
             saveBudget(budget, flagExpense);
           }}
+          className="font-serif"
         >
           Save
         </Button>
       </div>
-    </>
+    </div>
   );
 };
