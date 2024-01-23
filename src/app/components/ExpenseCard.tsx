@@ -60,7 +60,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
     <>
       <Card className="flex">
         <CardHeader className="pb-0 justify-between">
-          <label className="basis-1/2 uppercase text-xl font-serif">
+          <label className="basis-1/2 capitalize text-xl font-serif">
             {purchase}
           </label>
           <div>
