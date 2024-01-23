@@ -12,7 +12,6 @@ import {
   CardBody,
   CardHeader,
   Progress,
-  Skeleton,
   Spinner,
 } from "@nextui-org/react";
 import { AlertIcon } from "./icons/AlertIcon";
@@ -60,7 +59,7 @@ const BudgetDetails = () => {
         <div>
           <div className="flex justify-center font-semibold">TOTAL BUDGET</div>
           <div className="flex justify-center mt-8 font-bold">
-            <p className="text-9xl">{budgetMaxValue}</p>
+            <p className="text-5xl">{budgetMaxValue}</p>
             <span className="text-sm">USD</span>
           </div>
           <div className="m-8">

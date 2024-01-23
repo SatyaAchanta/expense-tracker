@@ -1,19 +1,15 @@
 import React from "react";
 import {
-  Card,
-  CardHeader,
-  CardBody,
   Button,
   useDisclosure,
-  CardFooter,
+  Accordion,
+  AccordionItem,
 } from "@nextui-org/react";
 import { getDateInReadableFormat } from "../utils/date";
 import { atom, useAtom } from "jotai";
 import { ActionModal } from "./ActionModal";
 import { deleteExpense } from "../utils/api";
 import { mutate } from "swr";
-import { DeleteIcon } from "./icons/DeleteIcon";
-import { EditIcon } from "./EditIcon";
 import { ExpenseForm } from "./ExpenseForm";
 
 const DELETE_MESSAGE = "Are you sure you want to delete this expense?";
@@ -58,48 +54,49 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
 
   return (
     <>
-      <Card className="flex">
-        <CardHeader className="pb-0 justify-between">
-          <label className="basis-1/2 capitalize text-xl font-serif">
-            {purchase}
-          </label>
-          <div>
-            <label className="text-sky-900 text-3xl">${price}</label>
-          </div>
-        </CardHeader>
-        <CardBody className="py-0">
-          <label className="text-sm font-serif">
-            {getDateInReadableFormat(new Date(date))}
-          </label>
-        </CardBody>
-        <CardFooter className="justify-end">
-          <Button
-            color="primary"
-            isIconOnly
-            variant="light"
-            size="md"
-            onClick={() => {
-              setIsEdit(true);
-              onOpen();
-            }}
-          >
-            <EditIcon />
-          </Button>
+      <Accordion variant="bordered">
+        <AccordionItem
+          key="1"
+          aria-label="Chung Miller"
+          subtitle={
+            <div className="ml-4 font-serif">
+              {getDateInReadableFormat(new Date(date))}
+            </div>
+          }
+          title={
+            <div className="flex justify-between ml-4 font-serif">
+              <span>{purchase}</span>
+              <span className="font-semibold text-xl">${price}</span>
+            </div>
+          }
+        >
+          <div className="flex justify-end gap-2">
+            <Button
+              color="primary"
+              variant="solid"
+              size="sm"
+              onClick={() => {
+                setIsEdit(true);
+                onOpen();
+              }}
+            >
+              Edit
+            </Button>
 
-          <Button
-            color="danger"
-            variant="light"
-            size="md"
-            isIconOnly
-            onClick={() => {
-              setIsEdit(false);
-              onOpen();
-            }}
-          >
-            <DeleteIcon />
-          </Button>
-        </CardFooter>
-      </Card>
+            <Button
+              color="danger"
+              variant="solid"
+              size="sm"
+              onClick={() => {
+                setIsEdit(false);
+                onOpen();
+              }}
+            >
+              Delete
+            </Button>
+          </div>
+        </AccordionItem>
+      </Accordion>
       <ActionModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

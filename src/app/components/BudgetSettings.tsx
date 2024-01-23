@@ -1,4 +1,4 @@
-import { Button, Card, CardHeader, Progress, Spacer } from "@nextui-org/react";
+import { Button, Card, CardHeader, Spacer } from "@nextui-org/react";
 import { DashIcon } from "./icons/DashIcon";
 import { PlusIcon } from "./icons/PlusIcon";
 import { updateUserBudget } from "../utils/api";
@@ -63,7 +63,7 @@ export const BudgetSettings = () => {
           >
             <DashIcon />
           </Button>
-          <div className="text-7xl font-semibold tracking-wide">{budget}</div>
+          <div className="text-4xl font-semibold tracking-wide">{budget}</div>
           <Button
             isIconOnly
             size="lg"
@@ -94,7 +94,7 @@ export const BudgetSettings = () => {
           >
             <DashIcon />
           </Button>
-          <div className="text-7xl font-semibold tracking-wide">
+          <div className="text-4xl font-semibold tracking-wide">
             {flagExpense}
           </div>
           <Button
