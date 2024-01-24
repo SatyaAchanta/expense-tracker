@@ -13,6 +13,7 @@ import { ExpenseForm } from "../components/ExpenseForm";
 import BudgetDetails from "../components/BudgetDetails";
 import { ProfileDetailsIcon } from "../components/icons/ProfileDetailsIcon";
 import { BudgetSettings } from "../components/BudgetSettings";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 const Dashboard = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -22,7 +23,8 @@ const Dashboard = () => {
       <div className="md:hidden">
         <header className="flex w-full items-center justify-between md:justify-end px-6 py-6 border-b">
           <UserButton />
-          <Button
+          <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
+          {/* <Button
             color="primary"
             variant="bordered"
             size="sm"
@@ -31,7 +33,7 @@ const Dashboard = () => {
             className="md:hidden"
           >
             <AddIcon />
-          </Button>
+          </Button> */}
         </header>
         <div className="grid mt-8">
           <Tabs

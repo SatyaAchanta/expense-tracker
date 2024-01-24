@@ -11,6 +11,7 @@ import { ActionModal } from "./ActionModal";
 import { deleteExpense } from "../utils/api";
 import { mutate } from "swr";
 import { ExpenseForm } from "./ExpenseForm";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 
 const DELETE_MESSAGE = "Are you sure you want to delete this expense?";
 
@@ -70,30 +71,21 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
             </div>
           }
         >
-          <div className="flex justify-end gap-2">
-            <Button
-              color="primary"
-              variant="solid"
-              size="sm"
+          <div className="flex justify-end gap-3 items-center">
+            <PencilSquareIcon
+              className="h-6 w-6 text-blue-500"
               onClick={() => {
                 setIsEdit(true);
                 onOpen();
               }}
-            >
-              Edit
-            </Button>
-
-            <Button
-              color="danger"
-              variant="solid"
-              size="sm"
+            />
+            <TrashIcon
+              className="h-6 w-6 text-red-500"
               onClick={() => {
                 setIsEdit(false);
                 onOpen();
               }}
-            >
-              Delete
-            </Button>
+            />
           </div>
         </AccordionItem>
       </Accordion>
