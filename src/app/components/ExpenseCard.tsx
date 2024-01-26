@@ -1,9 +1,10 @@
 import React from "react";
 import {
-  Button,
   useDisclosure,
-  Accordion,
-  AccordionItem,
+  Card,
+  CardHeader,
+  CardFooter,
+  CardBody,
 } from "@nextui-org/react";
 import { getDateInReadableFormat } from "../utils/date";
 import { atom, useAtom } from "jotai";
@@ -55,40 +56,31 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
 
   return (
     <>
-      <Accordion variant="bordered">
-        <AccordionItem
-          key="1"
-          aria-label="Chung Miller"
-          subtitle={
-            <div className="ml-4 font-serif">
-              {getDateInReadableFormat(new Date(date))}
-            </div>
-          }
-          title={
-            <div className="flex justify-between ml-4 font-serif">
-              <span>{purchase}</span>
-              <span className="font-semibold text-xl">${price}</span>
-            </div>
-          }
-        >
-          <div className="flex justify-end gap-3 items-center">
-            <EyeIcon
-              className="h-6 w-6 text-blue-500"
-              onClick={() => {
-                setIsEdit(true);
-                onOpen();
-              }}
-            />
-            <TrashIcon
-              className="h-6 w-6 text-red-500"
-              onClick={() => {
-                setIsEdit(false);
-                onOpen();
-              }}
-            />
-          </div>
-        </AccordionItem>
-      </Accordion>
+      <Card className="b-4 p-4 font-serif">
+        <CardHeader className="flex justify-between">
+          <label className="text-xl">{purchase}</label>
+          <span className="font-semibold text-2xl">${price}</span>
+        </CardHeader>
+        <CardBody className="font-serif py-0">
+          {getDateInReadableFormat(new Date(date))}
+        </CardBody>
+        <CardFooter className="flex justify-end gap-4">
+          <EyeIcon
+            className="h-6 w-6 text-blue-500"
+            onClick={() => {
+              setIsEdit(true);
+              onOpen();
+            }}
+          />
+          <TrashIcon
+            className="h-6 w-6 text-red-500"
+            onClick={() => {
+              setIsEdit(false);
+              onOpen();
+            }}
+          />
+        </CardFooter>
+      </Card>
       <ActionModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
