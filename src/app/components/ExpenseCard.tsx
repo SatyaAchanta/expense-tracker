@@ -11,7 +11,7 @@ import { ActionModal } from "./ActionModal";
 import { deleteExpense } from "../utils/api";
 import { mutate } from "swr";
 import { ExpenseForm } from "./ExpenseForm";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
+import { EyeIcon, TrashIcon } from "@heroicons/react/16/solid";
 
 const DELETE_MESSAGE = "Are you sure you want to delete this expense?";
 
@@ -72,7 +72,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
           }
         >
           <div className="flex justify-end gap-3 items-center">
-            <PencilSquareIcon
+            <EyeIcon
               className="h-6 w-6 text-blue-500"
               onClick={() => {
                 setIsEdit(true);
