@@ -24,16 +24,6 @@ const Dashboard = () => {
         <header className="flex w-full items-center justify-between md:justify-end px-6 py-6 border-b">
           <UserButton />
           <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
-          {/* <Button
-            color="primary"
-            variant="bordered"
-            size="sm"
-            onClick={onOpen}
-            isIconOnly
-            className="md:hidden"
-          >
-            <AddIcon />
-          </Button> */}
         </header>
         <div className="grid mt-8">
           <Tabs
@@ -43,7 +33,6 @@ const Dashboard = () => {
             color="primary"
           >
             <Tab title={<ProfileDetailsIcon />} className="md:hidden">
-              {/* <EntryForm /> */}
               <BudgetDetails />
             </Tab>
             <Tab title={<CashIcon />} className="md:hidden">
