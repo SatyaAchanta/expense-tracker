@@ -2,13 +2,12 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
-import { Provider } from "jotai";
-import { expenseStore } from "./store/expense";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <Provider store={expenseStore}>
+    <ClerkProvider>
       <NextUIProvider>{children}</NextUIProvider>
-    </Provider>
+    </ClerkProvider>
   );
 }
