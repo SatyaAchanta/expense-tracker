@@ -8,7 +8,7 @@ import { iExpenseEntry } from "@/types";
 import { ActionModal } from "./ActionModal";
 import { ExpenseForm } from "./ExpenseForm";
 
-const MAX_ITEMS_PER_PAGE = 3;
+const MAX_ITEMS_PER_PAGE = 5;
 const currentPageAtom = atom(1);
 const startAtom = atom(0);
 const endAtom = atom(MAX_ITEMS_PER_PAGE);
@@ -50,20 +50,20 @@ export const ExpenseCards = () => {
           <h1 className="text-lg">No expenses Saved</h1>
         </div>
       )}
-      <div className="flex justify-between mx-8">
+      <div className="flex justify-between mx-8 gap-4">
         <Pagination
           total={totalPages}
           initialPage={currentPage}
           onChange={(page) => {
             setCurrentPage(page);
           }}
-          size="lg"
+          size="md"
           variant="light"
           color="secondary"
-          isCompact
           showControls
+          isCompact
         />
-        <Button isIconOnly variant="solid" color="primary" size="lg">
+        <Button isIconOnly variant="solid" color="primary" size="md">
           <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
         </Button>
       </div>

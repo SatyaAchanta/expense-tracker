@@ -33,7 +33,7 @@ const Dashboard = () => {
         </div>
       )}
       <div className="md:hidden">
-        <header className="flex w-full items-center justify-end md:justify-end px-6 py-6 mb-16">
+        <header className="flex w-full items-center justify-end md:justify-end px-6 py-6 mb-4">
           <UserButton />
         </header>
         <div className="grid mt-8">

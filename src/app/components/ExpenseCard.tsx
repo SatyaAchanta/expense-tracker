@@ -64,9 +64,10 @@ export const ExpenseCard = (data: iExpenseCardProps) => {
           title={
             <div className="flex justify-between ml-2 font-serif">
               <span>{expense.name}</span>
-              <span className="font-semibold text-2xl font-mono text-sky-600">
+              <div className="font-semibold text-2xl font-mono text-sky-600">
+                <label className="text-sm">$</label>
                 {expense.price}
-              </span>
+              </div>
             </div>
           }
         >
