@@ -1,7 +1,4 @@
 import { iExpenseEntry, iExpenseResponse } from "@/types";
-import { NextResponse } from "next/server";
-import { getUserByClerkId } from "./auth";
-import { prisma } from "./db";
 
 const createUrl = (path: string) => {
   return window.location.origin + path;
@@ -16,6 +13,7 @@ export const addExpenseEntry = async (
       body: JSON.stringify({ expense }),
     })
   );
+
   if (res.ok) {
     const data = await res.json();
     return {
@@ -41,11 +39,13 @@ export const getExpenses = async (): Promise<iExpenseResponse> => {
     return {
       status: 200,
       data: data.data,
+      refetch: getExpenses,
     };
   } else {
     return {
       status: 500,
       data: null,
+      refetch: getExpenses
     };
   }
 };

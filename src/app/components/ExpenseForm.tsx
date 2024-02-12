@@ -4,14 +4,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FieldError } from "react-hook-form";
 import { Input, Textarea, Button } from "@nextui-org/react";
-import { iExpenseEntry, iExpenseResponse } from "@/types";
+import { iExpenseEntry } from "@/types";
 import { addExpenseEntry, updateExpense } from "../utils/api";
 import { getDateForInputView } from "../utils/date";
-import { mutate } from "swr";
 import { ShopIcon } from "./icons/ShopIcon";
 import { CashIcon } from "./icons/CashIcon";
 import { BagIcon } from "./icons/BagIcon";
 import { CalendarIcon } from "./icons/CalendarIcon";
+import { useAtom } from "jotai";
+import { userExpenses } from "../store/expense";
+import { useEffect } from "react";
 
 interface iUpdateFormProps {
   id: string;
@@ -22,6 +24,7 @@ interface iUpdateFormProps {
   description?: string;
   isUpdate: boolean;
   closeModal: () => void;
+  onEditSuccess: (data: iExpenseEntry) => void;
 }
 
 const schema = yup.object({
@@ -45,6 +48,8 @@ const isInvalidElement = (
 export const ExpenseForm: React.FC<iUpdateFormProps> = (
   expense: iUpdateFormProps,
 ) => {
+  const [expenses, setUserExpenses] = useAtom(userExpenses);
+
   const onSubmit: SubmitHandler<iExpenseEntry> = async (data) => {
     let res = null;
     if (expense.isUpdate) {
@@ -54,10 +59,21 @@ export const ExpenseForm: React.FC<iUpdateFormProps> = (
     }
 
     if (res.status === 200) {
-      mutate("/api/expenses");
-      reset();
-      expense.closeModal();
+      const data = res.data;
+
+      const updatedExpense: iExpenseEntry = {
+        id: data.id,
+        name: data.name,
+        price: data.price,
+        place: data.place,
+        description: data.description,
+        purchaseDate: data.purchaseDate,
+      };
+
+      expense.onEditSuccess(updatedExpense);
+      // setUserExpenses([...expenses, updatedExpense]);
     }
+    expense.closeModal();
   };
 
   const {
@@ -65,10 +81,17 @@ export const ExpenseForm: React.FC<iUpdateFormProps> = (
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState,
+    formState: { errors, isSubmitSuccessful },
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful]);
 
   return (
     <div className="grid font-serif">

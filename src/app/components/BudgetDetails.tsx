@@ -54,7 +54,11 @@ const BudgetDetails = () => {
 
   return (
     <div className="mt-8">
-      {isLoading && <Spinner size="lg" label="loading..." />}
+      {isLoading && (
+        <div className="flex justify-center h-full">
+          <Spinner size="lg" label="loading..." />
+        </div>
+      )}
       {budgetMaxValue !== 0 && (
         <div>
           <div className="flex justify-center font-semibold">TOTAL BUDGET</div>

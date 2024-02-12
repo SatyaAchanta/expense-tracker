@@ -4,11 +4,13 @@ export interface iExpenseEntry {
   purchaseDate: Date;
   place: string;
   description?: string;
+  id?: string;
 }
 
 export interface iExpenseResponse {
   status: number;
   data: any;
+  refetch?: () => void;
 }
 
 interface iIconProps {

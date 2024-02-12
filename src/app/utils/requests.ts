@@ -1,12 +1,29 @@
+import { iExpenseEntry } from "@/types";
 import useSWR from "swr";
 
-export const getUserExpenses = () => {
-  const { data, error, mutate } = useSWR("/api/expenses", {
-    fetcher: (url) => fetch(url).then((res) => res.json()),
+export const getUserExpenses = (searchOn = "", searchVal = "") => {
+  const { data, error, mutate } = useSWR(
+    `/api/expenses?searchOn=${searchOn}&searchVal=${searchVal}`,
+    {
+      fetcher: (url) => fetch(url).then((res) => res.json()),
+    }
+  );
+
+  const expenses: iExpenseEntry[] = [];
+
+  data?.data.forEach((expense) => {
+    expenses.push({
+      name: expense.name,
+      price: expense.price,
+      purchaseDate: expense.purchaseDate,
+      place: expense.place,
+      description: expense.description,
+      id: expense.id,
+    });
   });
 
   return {
-    expenses: data,
+    expenses,
     isLoading: !error && !data,
     isError: error,
     mutate,

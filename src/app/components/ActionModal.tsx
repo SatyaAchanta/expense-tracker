@@ -8,6 +8,8 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import { Provider } from "jotai";
+import { expenseStore } from "../store/expense";
 
 interface iModalProps {
   isOpen: boolean;

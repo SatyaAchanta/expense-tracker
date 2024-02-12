@@ -1,29 +1,96 @@
-import { Divider } from "@nextui-org/react";
 import { ExpenseCard } from "./ExpenseCard";
+import { atom, useAtom, useAtomValue } from "jotai";
+import { derivedTotalExpenses, userExpenses } from "../store/expense";
+import { Button, Pagination, useDisclosure } from "@nextui-org/react";
+import { useEffect } from "react";
+import { PlusIcon } from "@heroicons/react/24/solid";
+import { iExpenseEntry } from "@/types";
+import { ActionModal } from "./ActionModal";
+import { ExpenseForm } from "./ExpenseForm";
 
-export const ExpenseCards = (data: any) => {
+const MAX_ITEMS_PER_PAGE = 3;
+const currentPageAtom = atom(1);
+const startAtom = atom(0);
+const endAtom = atom(MAX_ITEMS_PER_PAGE);
+
+export const ExpenseCards = () => {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const [expenses, setExpenses] = useAtom(userExpenses);
+  const totalNumbeOfExpenses = useAtomValue(derivedTotalExpenses);
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const totalPages = Math.ceil(totalNumbeOfExpenses / MAX_ITEMS_PER_PAGE);
+  const [start, setStart] = useAtom(startAtom);
+  const [end, setEnd] = useAtom(endAtom);
+
+  const onEditSuccess = (data: iExpenseEntry) => {
+    setExpenses([data, ...expenses]);
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      setStart((currentPage - 1) * MAX_ITEMS_PER_PAGE);
+      setEnd(currentPage * MAX_ITEMS_PER_PAGE);
+    }
+  }, [currentPage]);
+
   return (
-    <div className="sm:block md:hidden">
-      {data.expenses.map((expense) => {
-        return (
-          <div className="m-4" key={`div-${expense.id}`}>
-            <ExpenseCard
-              key={expense.id}
-              purchase={expense.name}
-              date={expense.purchaseDate}
-              description={expense.description}
-              price={expense.price}
-              id={expense.id}
-              place={expense.place}
-            />
-          </div>
-        );
-      })}
-      {data.expenses.length === 0 && (
+    <div className="grid grid-cols-1 items-end sm:block md:hidden gap-8 h-full">
+      <div>
+        {expenses.slice(start, end).map((expense) => {
+          return (
+            <div className="m-2" key={`div-${expense.id}`}>
+              <ExpenseCard expenseId={expense.id!} />
+            </div>
+          );
+        })}
+      </div>
+
+      {expenses.length === 0 && (
         <div className="flex justify-center">
           <h1 className="text-lg">No expenses Saved</h1>
         </div>
       )}
+      <div className="flex justify-between mx-8">
+        <Pagination
+          total={totalPages}
+          initialPage={currentPage}
+          onChange={(page) => {
+            setCurrentPage(page);
+          }}
+          size="lg"
+          variant="light"
+          color="secondary"
+          isCompact
+          showControls
+        />
+        <Button isIconOnly variant="solid" color="primary" size="lg">
+          <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
+        </Button>
+      </div>
+      <ActionModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onModalClose={onClose}
+        onModalAction={() => {
+          return;
+        }}
+        actionButtonTitle="Add"
+        header="Add Expense"
+        body={
+          <ExpenseForm
+            id=""
+            name=""
+            place=""
+            price={0}
+            description=""
+            purchaseDate={new Date().toLocaleDateString()}
+            closeModal={onClose}
+            isUpdate={false}
+            onEditSuccess={onEditSuccess}
+          />
+        }
+        isEdit={true}
+      />
     </div>
   );
 };
