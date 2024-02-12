@@ -1,3 +1,5 @@
+"use client";
+
 import { auth } from "@clerk/nextjs";
 import { Button } from "@nextui-org/button";
 import { Provider } from "jotai";
