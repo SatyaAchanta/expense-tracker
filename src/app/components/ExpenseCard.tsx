@@ -4,14 +4,10 @@ import { getDateInReadableFormat } from "../utils/date";
 import { atom, useAtom } from "jotai";
 import { ActionModal } from "./ActionModal";
 import { deleteExpense } from "../utils/api";
-import { mutate } from "swr";
 import { ExpenseForm } from "./ExpenseForm";
 import { EyeIcon, TrashIcon } from "@heroicons/react/16/solid";
-import { getUserExpenses } from "../utils/requests";
 import { userExpenses } from "../store/expense";
 import { iExpenseEntry } from "@/types";
-import { get } from "http";
-import { m } from "framer-motion";
 
 const DELETE_MESSAGE = "Are you sure you want to delete this expense?";
 
@@ -34,11 +30,8 @@ export const ExpenseCard = (data: iExpenseCardProps) => {
     const { data, status } = await deleteExpense(expense.id!);
 
     if (status == 200) {
-      console.log("Expense deleted: ", data);
-      console.log("Expenses before deleting: ", expenses.length);
       const filteredExpenses = expenses.filter((exp) => exp.id !== expense.id);
-      console.log("Expenses after deleting: ", filteredExpenses.length);
-      setExpenses([]);
+      setExpenses([...filteredExpenses]);
     } else {
       console.log("Error deleting expense: ");
     }
@@ -54,7 +47,6 @@ export const ExpenseCard = (data: iExpenseCardProps) => {
     const currentExpenses = [...expenses];
     const index = currentExpenses.findIndex((exp) => exp.id === expense.id);
     currentExpenses[index] = data;
-    console.log("Updated Expense: ", currentExpenses[index]);
     setExpenses(currentExpenses);
   };
 

@@ -20,9 +20,5 @@ export const POST = async (request: Request) => {
     },
   });
 
-  // revalidatePath("/dashboard");
-
-  console.log("--- entry is:", entry);
-
   return NextResponse.json({ data: entry });
 };

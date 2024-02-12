@@ -16,13 +16,11 @@ export const addExpenseEntry = async (
 
   if (res.ok) {
     const data = await res.json();
-    console.log("--- data returned", data);
     return {
       status: 200,
       data: data.data,
     };
   } else {
-    console.log("--- res not OK");
     return {
       status: 500,
       data: null,
@@ -41,11 +39,13 @@ export const getExpenses = async (): Promise<iExpenseResponse> => {
     return {
       status: 200,
       data: data.data,
+      refetch: getExpenses,
     };
   } else {
     return {
       status: 500,
       data: null,
+      refetch: getExpenses
     };
   }
 };

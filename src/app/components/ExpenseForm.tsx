@@ -12,7 +12,7 @@ import { CashIcon } from "./icons/CashIcon";
 import { BagIcon } from "./icons/BagIcon";
 import { CalendarIcon } from "./icons/CalendarIcon";
 import { useAtom } from "jotai";
-import { areExpensesChanged } from "../store/expense";
+import { userExpenses } from "../store/expense";
 import { useEffect } from "react";
 
 interface iUpdateFormProps {
@@ -48,6 +48,8 @@ const isInvalidElement = (
 export const ExpenseForm: React.FC<iUpdateFormProps> = (
   expense: iUpdateFormProps,
 ) => {
+  const [expenses, setUserExpenses] = useAtom(userExpenses);
+
   const onSubmit: SubmitHandler<iExpenseEntry> = async (data) => {
     let res = null;
     if (expense.isUpdate) {
@@ -57,9 +59,7 @@ export const ExpenseForm: React.FC<iUpdateFormProps> = (
     }
 
     if (res.status === 200) {
-      console.log("res status is 200");
-
-      const data = await res.data;
+      const data = res.data;
 
       const updatedExpense: iExpenseEntry = {
         id: data.id,
@@ -71,6 +71,7 @@ export const ExpenseForm: React.FC<iUpdateFormProps> = (
       };
 
       expense.onEditSuccess(updatedExpense);
+      // setUserExpenses([...expenses, updatedExpense]);
     }
     expense.closeModal();
   };

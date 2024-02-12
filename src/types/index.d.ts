@@ -10,6 +10,7 @@ export interface iExpenseEntry {
 export interface iExpenseResponse {
   status: number;
   data: any;
+  refetch?: () => void;
 }
 
 interface iIconProps {
