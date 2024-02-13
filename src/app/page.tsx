@@ -1,10 +1,6 @@
-"use client";
-
 import { auth } from "@clerk/nextjs";
 import { Button } from "@nextui-org/button";
-import { Provider } from "jotai";
 import Link from "next/link";
-import { expenseStore } from "./store/expense";
 
 export default async function Home() {
   const { userId } = await auth();
