@@ -5,6 +5,7 @@ import { getUserNameFromClerkUser } from "../utils/user";
 
 const createNewUser = async () => {
   const loggedInUser = await currentUser();
+  console.log("---- loggedInUser ----", loggedInUser);
   const match = await prisma.user.findUnique({
     where: {
       clerkId: loggedInUser!.id as string,
@@ -12,6 +13,7 @@ const createNewUser = async () => {
   });
 
   if (!match) {
+    console.log("----no match----");
     const user = await prisma.user.create({
       data: {
         clerkId: loggedInUser!.id,
@@ -20,6 +22,7 @@ const createNewUser = async () => {
     });
   }
 
+  console.log("---- just before redirect ----");
   redirect("/dashboard");
 };
 
