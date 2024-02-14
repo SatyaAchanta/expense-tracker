@@ -18,7 +18,7 @@ export const PATCH = async (req: Request) => {
     },
   });
 
-  revalidatePath("/dashboard");
+  // revalidatePath("/dashboard");
 
   return NextResponse.json({ data: updatedExpense });
 };
@@ -31,7 +31,7 @@ export const GET = async () => {
     },
   });
 
-  revalidatePath("/dashboard");
+  // revalidatePath("/dashboard");
 
   return NextResponse.json({ data: userData });
 };

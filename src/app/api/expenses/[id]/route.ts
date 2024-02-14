@@ -23,7 +23,7 @@ export const PATCH = async (req: Request, { params }) => {
     },
   });
 
-  revalidatePath("/dashboard");
+  // revalidatePath("/dashboard");
 
   return NextResponse.json({ data: updatedExpense });
 };
@@ -40,7 +40,7 @@ export const DELETE = async (req: Request, { params }) => {
     },
   });
 
-  revalidatePath("/dashboard");
+  // revalidatePath("/dashboard");
 
   return NextResponse.json({ data: "success" });
 };

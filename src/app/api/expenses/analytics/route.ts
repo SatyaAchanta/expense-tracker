@@ -15,7 +15,7 @@ export const GET = async () => {
     },
   });
 
-  revalidatePath("/dashboard");
+  // revalidatePath("/dashboard");
 
   return NextResponse.json({ data: totalExpenses._sum.price });
 };
