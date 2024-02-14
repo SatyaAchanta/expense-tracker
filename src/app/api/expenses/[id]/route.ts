@@ -1,6 +1,5 @@
 import { getUserByClerkId } from "@/app/utils/auth";
 import { prisma } from "@/app/utils/db";
-import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export const PATCH = async (req: Request, { params }) => {
@@ -23,8 +22,6 @@ export const PATCH = async (req: Request, { params }) => {
     },
   });
 
-  // revalidatePath("/dashboard");
-
   return NextResponse.json({ data: updatedExpense });
 };
 
@@ -39,8 +36,6 @@ export const DELETE = async (req: Request, { params }) => {
       },
     },
   });
-
-  // revalidatePath("/dashboard");
 
   return NextResponse.json({ data: "success" });
 };
