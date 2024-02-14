@@ -63,7 +63,5 @@ export const GET = async (req: NextRequest) => {
   //   // TODO
   // }
 
-  revalidatePath("/dashboard");
-
   return NextResponse.json({ data: expenses });
 };

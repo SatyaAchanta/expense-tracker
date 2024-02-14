@@ -1,7 +1,7 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
-import { Tabs, Tab, Skeleton } from "@nextui-org/react";
+import { Tabs, Tab, Skeleton, Spinner } from "@nextui-org/react";
 import { CashIcon } from "../components/icons/CashIcon";
 import { SettingsIcon } from "../components/icons/SettingsIcon";
 import BudgetDetails from "../components/BudgetDetails";
@@ -10,7 +10,7 @@ import { BudgetSettings } from "../components/BudgetSettings";
 import { useSetAtom } from "jotai";
 import { areExpensesChanged, userExpenses } from "../store/expense";
 import { getUserExpenses } from "../utils/requests";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { ExpenseCards } from "../components/ExpenseCards";
 
 const Dashboard = () => {
@@ -26,12 +26,13 @@ const Dashboard = () => {
   }, [expenses]);
 
   return (
-    <>
-      {isLoading && (
-        <div>
-          <Skeleton />
+    <Suspense
+      fallback={
+        <div className="flex justify-center">
+          <Spinner />
         </div>
-      )}
+      }
+    >
       <div className="md:hidden">
         <header className="flex w-full items-center justify-end md:justify-end px-6 py-6 mb-4">
           <UserButton />
@@ -66,7 +67,7 @@ const Dashboard = () => {
           screen
         </label>
       </div>
-    </>
+    </Suspense>
   );
 };
 
