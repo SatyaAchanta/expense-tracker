@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { BudgetSettings } from "./BudgetSettings";
 import {
   budgetMax,
@@ -7,24 +7,14 @@ import {
   totalExpenses,
 } from "../store/expense";
 import { getTotalExpenses, getUserBudget } from "../utils/requests";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Progress,
-  Spinner,
-} from "@nextui-org/react";
+import { Spinner, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { AlertIcon } from "./icons/AlertIcon";
 
 const BudgetDetails = () => {
   const { res, isError, isLoading } = getUserBudget();
-
   const { totalExpensesRes, isTotalError } = getTotalExpenses();
-
   const [budgetMaxValue, setBudgetMaxValue] = useAtom(budgetMax);
-
-  const [flagExpenseValue, setFlagExpenseValue] = useAtom(flagExpenseThreshold);
-
+  const setFlagExpenseValue = useSetAtom(flagExpenseThreshold);
   const [totalExpensesValue, setTotalExpensesValue] = useAtom(totalExpenses);
 
   const determineBarColor = () => {
@@ -61,43 +51,32 @@ const BudgetDetails = () => {
       )}
       {budgetMaxValue !== 0 && (
         <div>
-          <div className="flex justify-center font-semibold">TOTAL BUDGET</div>
-          <div className="flex justify-center mt-8 font-bold">
-            <p className="text-5xl">{budgetMaxValue}</p>
-            <span className="text-sm">USD</span>
-          </div>
-          <div className="m-8">
-            <Progress
-              label="Total Spent"
-              size="lg"
-              value={totalExpensesValue}
-              maxValue={budgetMaxValue}
-              color={determineBarColor()}
-              formatOptions={{ style: "currency", currency: "USD" }}
-              showValueLabel={true}
-            />
-
-            {totalExpensesValue > budgetMaxValue && (
-              <Card className="mt-4 bg-amber-500">
-                <CardHeader>
-                  <div className="flex gap-2 items-center">
-                    <AlertIcon />
-                    <div className="text-xl font-semibold">Warning</div>
-                  </div>
-                </CardHeader>
-                <CardBody>
-                  <p className="font-semibold">
-                    You exceeded the limit by USD{" "}
-                    {totalExpensesValue - budgetMaxValue}. Try increasing your
-                    budget limit
-                  </p>
-                </CardBody>
-              </Card>
-            )}
+          <div className="flex flex-wrap justify-around my-4 mx-2 px-8 py-8 font-bold gap-8 bg-sky-900 text-white rounded-md">
+            <div className="">
+              <label className="text-sm">Total Spent</label>
+              <p className="text-5xl">{totalExpensesValue}</p>
+            </div>
+            <div>
+              <label className="text-sm">Total Budget</label>
+              <p className="text-5xl">{budgetMaxValue}</p>
+            </div>
           </div>
         </div>
       )}
       {budgetMaxValue == 0 && !isLoading && <BudgetSettings />}
+      {totalExpensesValue > budgetMaxValue && (
+        <Card className="mt-4 mx-2 bg-amber-500">
+          <CardHeader>
+            <div className="flex gap-2 items-center">
+              <AlertIcon />
+              <div className="text-md font-semibold">
+                You exceeded the limit by USD $
+                {totalExpensesValue - budgetMaxValue}.
+              </div>
+            </div>
+          </CardHeader>
+        </Card>
+      )}
     </div>
   );
 };

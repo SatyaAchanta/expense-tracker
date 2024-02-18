@@ -49,6 +49,7 @@ export const ExpenseForm: React.FC<iUpdateFormProps> = (
   const [expenses, setUserExpenses] = useAtom(userExpenses);
 
   const onSubmit: SubmitHandler<iExpenseEntry> = async (data) => {
+    data.purchaseDate = new Date(data.purchaseDate);
     let res = null;
     if (expense.isUpdate) {
       res = await updateExpense(expense.id, data);
@@ -65,11 +66,10 @@ export const ExpenseForm: React.FC<iUpdateFormProps> = (
         price: data.price,
         place: data.place,
         description: data.description,
-        purchaseDate: data.purchaseDate,
+        purchaseDate: new Date(data.purchaseDate),
       };
 
       expense.onEditSuccess(updatedExpense);
-      // setUserExpenses([...expenses, updatedExpense]);
     }
     expense.closeModal();
   };

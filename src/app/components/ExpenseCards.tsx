@@ -1,7 +1,15 @@
 import { ExpenseCard } from "./ExpenseCard";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { derivedTotalExpenses, userExpenses } from "../store/expense";
-import { Button, Pagination, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Pagination,
+  useDisclosure,
+  Listbox,
+  ListboxItem,
+  Chip,
+  ScrollShadow,
+} from "@nextui-org/react";
 import { useEffect } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { iExpenseEntry } from "@/types";
@@ -34,8 +42,8 @@ export const ExpenseCards = () => {
   }, [currentPage]);
 
   return (
-    <div className="grid grid-cols-1 items-end sm:block md:hidden gap-8 h-full">
-      <div>
+    <div className="flex flex-col sm:block md:hidden gap-8 h-lvh">
+      <div className="flex-1 overflow-auto">
         {expenses.slice(start, end).map((expense) => {
           return (
             <div className="m-2" key={`div-${expense.id}`}>
@@ -43,6 +51,18 @@ export const ExpenseCards = () => {
             </div>
           );
         })}
+        {/* <ScrollShadow
+          hideScrollBar
+          orientation="horizontal"
+        >
+          {expenses.slice(start, end).map((expense) => {
+            return (
+              <div className="m-2" key={`div-${expense.id}`}>
+                <ExpenseCard expenseId={expense.id!} />
+              </div>
+            );
+          })}
+        </ScrollShadow> */}
       </div>
 
       {expenses.length === 0 && (
@@ -50,7 +70,7 @@ export const ExpenseCards = () => {
           <h1 className="text-lg">No expenses Saved</h1>
         </div>
       )}
-      <div className="flex justify-between mx-8 gap-4">
+      <div className="justify-between gap-4">
         <Pagination
           total={totalPages}
           initialPage={currentPage}
@@ -58,14 +78,14 @@ export const ExpenseCards = () => {
             setCurrentPage(page);
           }}
           size="md"
-          variant="light"
+          variant="flat"
           color="secondary"
           showControls
           isCompact
         />
-        <Button isIconOnly variant="solid" color="primary" size="md">
+        {/* <Button isIconOnly variant="solid" color="primary" size="md">
           <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
-        </Button>
+        </Button> */}
       </div>
       <ActionModal
         isOpen={isOpen}
