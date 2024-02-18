@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <>
-      <div className="md:hidden h-screen  flex justify-center items-center  font-serif">
+      <div className="md:hidden h-screen  flex justify-center items-center font-serif">
         <div className="w-full md:max-w-[600px] m-4 md:m-0">
           <div className="px-4 py-6 md:p-0">
             <h1 className="text-4xl mb-4">

@@ -42,27 +42,11 @@ export const ExpenseCards = () => {
   }, [currentPage]);
 
   return (
-    <div className="flex flex-col sm:block md:hidden gap-8 h-lvh">
-      <div className="flex-1 overflow-auto">
+    <div className="flex flex-col overflow-y-auto sm:block md:hidden gap-8">
+      <div className="flex-1">
         {expenses.slice(start, end).map((expense) => {
-          return (
-            <div className="m-2" key={`div-${expense.id}`}>
-              <ExpenseCard expenseId={expense.id!} />
-            </div>
-          );
+          return <ExpenseCard expenseId={expense.id!} />;
         })}
-        {/* <ScrollShadow
-          hideScrollBar
-          orientation="horizontal"
-        >
-          {expenses.slice(start, end).map((expense) => {
-            return (
-              <div className="m-2" key={`div-${expense.id}`}>
-                <ExpenseCard expenseId={expense.id!} />
-              </div>
-            );
-          })}
-        </ScrollShadow> */}
       </div>
 
       {expenses.length === 0 && (
@@ -70,7 +54,7 @@ export const ExpenseCards = () => {
           <h1 className="text-lg">No expenses Saved</h1>
         </div>
       )}
-      <div className="justify-between gap-4">
+      <div className="flex justify-center gap-4">
         <Pagination
           total={totalPages}
           initialPage={currentPage}
@@ -83,9 +67,9 @@ export const ExpenseCards = () => {
           showControls
           isCompact
         />
-        {/* <Button isIconOnly variant="solid" color="primary" size="md">
+        <Button isIconOnly variant="solid" color="primary" size="md">
           <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
-        </Button> */}
+        </Button>
       </div>
       <ActionModal
         isOpen={isOpen}
