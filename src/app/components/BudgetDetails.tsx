@@ -20,6 +20,7 @@ import { AlertIcon } from "./icons/AlertIcon";
 import { ExpensesChart } from "./ExpensesChart";
 import { ExpenseCard } from "./ExpenseCard";
 import { retrieveTopThreeExpenses } from "../utils/expenses";
+import { BudgetSettings } from "./BudgetSettings";
 
 const BudgetDetails = () => {
   const { res, isError, isLoading } = getUserBudget();
@@ -108,6 +109,7 @@ const BudgetDetails = () => {
           </div>
         </div>
       )}
+      {budgetMaxValue == 0 && !isLoading && <BudgetSettings />}
     </div>
   );
 };
