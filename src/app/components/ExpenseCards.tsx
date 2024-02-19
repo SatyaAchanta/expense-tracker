@@ -1,15 +1,7 @@
 import { ExpenseCard } from "./ExpenseCard";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { derivedTotalExpenses, userExpenses } from "../store/expense";
-import {
-  Button,
-  Pagination,
-  useDisclosure,
-  Listbox,
-  ListboxItem,
-  Chip,
-  ScrollShadow,
-} from "@nextui-org/react";
+import { Button, Pagination, useDisclosure } from "@nextui-org/react";
 import { useEffect } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { iExpenseEntry } from "@/types";
@@ -45,7 +37,9 @@ export const ExpenseCards = () => {
     <div className="flex flex-col overflow-y-auto sm:block md:hidden gap-8">
       <div className="flex-1">
         {expenses.slice(start, end).map((expense) => {
-          return <ExpenseCard expenseId={expense.id!} />;
+          return (
+            <ExpenseCard expenseId={expense.id!} key={`key-${expense.id}`} />
+          );
         })}
       </div>
 
