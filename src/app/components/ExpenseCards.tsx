@@ -49,19 +49,21 @@ export const ExpenseCards = () => {
         </div>
       )}
       <div className="flex justify-center gap-4">
-        <Pagination
-          total={totalPages}
-          initialPage={currentPage}
-          onChange={(page) => {
-            setCurrentPage(page);
-          }}
-          size="lg"
-          variant="flat"
-          color="primary"
-          showControls
-          isCompact
-        />
-        <Button isIconOnly variant="solid" color="primary" size="lg">
+        {expenses.length > 0 && (
+          <Pagination
+            total={totalPages}
+            initialPage={currentPage}
+            onChange={(page) => {
+              setCurrentPage(page);
+            }}
+            size="md"
+            variant="flat"
+            color="primary"
+            showControls
+            isCompact
+          />
+        )}
+        <Button isIconOnly variant="solid" color="primary" size="md">
           <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
         </Button>
       </div>
