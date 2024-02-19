@@ -7,7 +7,15 @@ import {
   userExpenses,
 } from "../store/expense";
 import { getTotalExpenses, getUserBudget } from "../utils/requests";
-import { Spinner, Card, CardHeader } from "@nextui-org/react";
+import {
+  Spinner,
+  Card,
+  CardHeader,
+  CardBody,
+  CircularProgress,
+  CardFooter,
+  Chip,
+} from "@nextui-org/react";
 import { AlertIcon } from "./icons/AlertIcon";
 import { ExpensesChart } from "./ExpensesChart";
 
@@ -33,23 +41,39 @@ const BudgetDetails = () => {
   }, [totalExpensesRes, isTotalError]);
 
   return (
-    <div className="flex flex-col mt-8 h-full">
+    <div className="flex flex-col m-8">
       {isLoading && (
         <div className="justify-center h-full">
           <Spinner size="lg" label="loading..." />
         </div>
       )}
       {budgetMaxValue !== 0 && (
-        <div className="flex flex-wrap justify-around my-4 mx-2 px-8 py-8 font-bold gap-8 bg-sky-900 text-white rounded-md">
-          <div className="">
-            <label className="text-sm">Total Spent</label>
-            <p className="text-5xl">{totalExpensesValue}</p>
-          </div>
-          <div>
-            <label className="text-sm">Total Budget</label>
-            <p className="text-5xl">{budgetMaxValue}</p>
-          </div>
-        </div>
+        <Card className="border-none bg-gradient-to-br from-sky-900 to-fuchsia-500">
+          <CardBody className="justify-center items-center pb-0">
+            <CircularProgress
+              classNames={{
+                svg: "w-36 h-36 drop-shadow-md",
+                indicator: "stroke-white",
+                track: "stroke-white/10",
+                value: "text-3xl font-semibold text-white",
+              }}
+              value={(totalExpensesValue / budgetMaxValue) * 100}
+              strokeWidth={4}
+              showValueLabel={true}
+            />
+          </CardBody>
+          <CardFooter className="justify-center items-center pt-0">
+            <Chip
+              classNames={{
+                base: "border-1 border-white/30",
+                content: "text-white/90 text-small font-semibold",
+              }}
+              variant="bordered"
+            >
+              Budget Limit {budgetMaxValue}
+            </Chip>
+          </CardFooter>
+        </Card>
       )}
       {totalExpensesValue > budgetMaxValue && (
         <Card className="mt-4 mx-2 bg-amber-500">
@@ -64,11 +88,11 @@ const BudgetDetails = () => {
           </CardHeader>
         </Card>
       )}
-      {/* {userExpensesValue.length > 14 && (
+      {userExpensesValue.length > 14 && (
         <div className="flex flex-grow mt-16">
           <ExpensesChart />
         </div>
-      )} */}
+      )}
     </div>
   );
 };

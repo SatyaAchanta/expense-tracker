@@ -7,8 +7,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  LineElement,
+  PointElement,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { userExpenses } from "../store/expense";
 import { groupExpensesByWeek } from "../utils/expenses";
 
@@ -19,6 +21,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  LineElement,
+  PointElement,
 );
 
 export const ExpensesChart = () => {
@@ -52,5 +56,5 @@ export const ExpensesChart = () => {
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return <Line options={options} data={data} />;
 };

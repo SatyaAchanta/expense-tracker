@@ -15,16 +15,18 @@ export const groupExpensesByWeek = (expenses: iExpenseEntry[]): Record<string, n
         }
     });
 
-    console.log(groupedExpenses);
     
     return groupedExpenses;
+}
+
+export const calculateMaxBudgetValue = (totalSpent: number, limit: number): number => {
+    return limit > totalSpent ? limit : totalSpent;
 }
 
 const getWeekNumber = (date: Date): number => {
     console.log("Date", date);
     const oneJan = new Date(date.getFullYear(), 0, 1);
     const millisecondsInWeek = 604800000;
-    console.log("Week is", Math.ceil(((date.getTime() - oneJan.getTime()) / millisecondsInWeek) + 1));
     return Math.floor(((date.getTime() - oneJan.getTime()) / millisecondsInWeek) + 1);
 }
 

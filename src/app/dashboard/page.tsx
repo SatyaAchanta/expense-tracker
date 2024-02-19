@@ -44,13 +44,13 @@ const Dashboard = () => {
             variant="bordered"
             color="primary"
           >
-            <Tab title={<ProfileDetailsIcon />} className="md:hidden">
+            <Tab title={"Budget"} className="md:hidden">
               <BudgetDetails />
             </Tab>
-            <Tab title={<CashIcon />} className="md:hidden">
+            <Tab title={"Expenses"} className="md:hidden">
               <ExpenseCards />
             </Tab>
-            <Tab title={<SettingsIcon />} className="md:hidden">
+            <Tab title={"Settings"} className="md:hidden">
               <BudgetSettings />
             </Tab>
           </Tabs>
