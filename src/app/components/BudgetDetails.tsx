@@ -18,6 +18,8 @@ import {
 } from "@nextui-org/react";
 import { AlertIcon } from "./icons/AlertIcon";
 import { ExpensesChart } from "./ExpensesChart";
+import { ExpenseCard } from "./ExpenseCard";
+import { retrieveTopThreeExpenses } from "../utils/expenses";
 
 const BudgetDetails = () => {
   const { res, isError, isLoading } = getUserBudget();
@@ -87,6 +89,24 @@ const BudgetDetails = () => {
             </div>
           </CardHeader>
         </Card>
+      )}
+
+      {userExpensesValue.length > 3 && (
+        <div className="mt-8">
+          <div className="text-xl font-semibold text-center mt-2">
+            Top 3 Expenses
+          </div>
+          <div className="flex flex-col gap-4 mt-4">
+            {retrieveTopThreeExpenses(userExpensesValue)
+              .slice(0, 3)
+              .map((expense, _) => (
+                <ExpenseCard
+                  expenseId={expense.id!}
+                  key={`key-${expense.id}`}
+                />
+              ))}
+          </div>
+        </div>
       )}
     </div>
   );

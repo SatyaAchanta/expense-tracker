@@ -55,13 +55,13 @@ export const ExpenseCards = () => {
           onChange={(page) => {
             setCurrentPage(page);
           }}
-          size="md"
+          size="lg"
           variant="flat"
-          color="secondary"
+          color="primary"
           showControls
           isCompact
         />
-        <Button isIconOnly variant="solid" color="primary" size="md">
+        <Button isIconOnly variant="solid" color="primary" size="lg">
           <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
         </Button>
       </div>
