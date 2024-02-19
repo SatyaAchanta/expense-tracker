@@ -64,11 +64,11 @@ const BudgetDetails = () => {
           </CardHeader>
         </Card>
       )}
-      {userExpensesValue.length > 14 && (
+      {/* {userExpensesValue.length > 14 && (
         <div className="flex flex-grow mt-16">
           <ExpensesChart />
         </div>
-      )}
+      )} */}
     </div>
   );
 };
