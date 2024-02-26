@@ -92,7 +92,7 @@ const BudgetDetails = () => {
         </Card>
       )}
 
-      {/* {userExpensesValue.length > 3 && (
+      {userExpensesValue.length > 3 && (
         <div className="mt-8">
           <div className="text-xl font-semibold text-center mt-2">
             Top 3 Expenses
@@ -108,7 +108,7 @@ const BudgetDetails = () => {
               ))}
           </div>
         </div>
-      )} */}
+      )}
       {budgetMaxValue == 0 && !isLoading && <BudgetSettings />}
     </div>
   );

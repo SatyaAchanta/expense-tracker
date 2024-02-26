@@ -20,7 +20,8 @@ export const groupExpensesByWeek = (expenses: iExpenseEntry[]): Record<string, n
 }
 
 export const retrieveTopThreeExpenses = (expenses: iExpenseEntry[]): iExpenseEntry[] => {
-    return expenses.sort((a, b) => b.price - a.price).slice(0, 3);
+    const allExpenses = [...expenses];
+    return allExpenses.sort((a, b) => b.price - a.price).slice(0, 3);
 };
 
 export const calculateMaxBudgetValue = (totalSpent: number, limit: number): number => {
