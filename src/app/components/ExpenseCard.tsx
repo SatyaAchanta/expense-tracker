@@ -51,7 +51,7 @@ export const ExpenseCard = (data: iExpenseCardProps) => {
   };
 
   return (
-    <>
+    <div className="flex">
       <Accordion variant="light">
         <AccordionItem
           key="1"
@@ -115,6 +115,6 @@ export const ExpenseCard = (data: iExpenseCardProps) => {
         }
         isEdit={isEdit}
       />
-    </>
+    </div>
   );
 };

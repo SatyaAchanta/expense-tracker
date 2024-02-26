@@ -15,7 +15,7 @@ export const getUserExpenses = (searchOn = "", searchVal = "") => {
     expenses.push({
       name: expense.name,
       price: expense.price,
-      purchaseDate: expense.purchaseDate,
+      purchaseDate: new Date(expense.purchaseDate),
       place: expense.place,
       description: expense.description,
       id: expense.id,

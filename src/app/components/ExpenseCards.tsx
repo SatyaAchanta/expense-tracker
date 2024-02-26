@@ -34,13 +34,11 @@ export const ExpenseCards = () => {
   }, [currentPage]);
 
   return (
-    <div className="grid grid-cols-1 items-end sm:block md:hidden gap-8 h-full">
-      <div>
+    <div className="flex flex-col overflow-y-auto sm:block md:hidden gap-8">
+      <div className="flex-1">
         {expenses.slice(start, end).map((expense) => {
           return (
-            <div className="m-2" key={`div-${expense.id}`}>
-              <ExpenseCard expenseId={expense.id!} />
-            </div>
+            <ExpenseCard expenseId={expense.id!} key={`key-${expense.id}`} />
           );
         })}
       </div>
@@ -50,19 +48,21 @@ export const ExpenseCards = () => {
           <h1 className="text-lg">No expenses Saved</h1>
         </div>
       )}
-      <div className="flex justify-between mx-8 gap-4">
-        <Pagination
-          total={totalPages}
-          initialPage={currentPage}
-          onChange={(page) => {
-            setCurrentPage(page);
-          }}
-          size="md"
-          variant="light"
-          color="secondary"
-          showControls
-          isCompact
-        />
+      <div className="flex justify-center gap-4">
+        {expenses.length > 0 && (
+          <Pagination
+            total={totalPages}
+            initialPage={currentPage}
+            onChange={(page) => {
+              setCurrentPage(page);
+            }}
+            size="md"
+            variant="flat"
+            color="primary"
+            showControls
+            isCompact
+          />
+        )}
         <Button isIconOnly variant="solid" color="primary" size="md">
           <PlusIcon className="h-6 w-6 md:hidden" onClick={onOpen} />
         </Button>

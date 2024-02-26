@@ -18,7 +18,7 @@ export const PATCH = async (req: Request, { params }) => {
       price: content.price,
       name: content.name,
       description: content.description,
-      purchaseDate: content.purchaseDate,
+      purchaseDate: new Date(content.purchaseDate),
     },
   });
 
